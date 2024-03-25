@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 export default function Header() {
   
   return (
-    <nav className="fixed flex flex-row w-full bg-gray-200 ">
+    <nav className="flex flex-row w-full bg-gray-200 px-64 py-6 justify-between">
       <Link className="w-36" to={"/"}>La Cabra Chismosa</Link> 
       <div>      
         <Link className="pl-6" to={"/interes"}>Grupos</Link> 
