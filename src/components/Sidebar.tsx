@@ -2,10 +2,10 @@ import { Link } from "react-router-dom"
 import { Button } from "@/components/ui/button"
 import { Users, CarFront, GraduationCap, HandCoins, Store, MessageCircleMore, Martini } from "lucide-react"
 
-export default function Header() {
+export default function Navbar() {
   
   return (
-    <nav className="sticky w-64 h-screen flex text-stone-800 flex-col bg-stone-50 px-2 border-stone-100 border-r-2">
+    <div className="sticky w-64 h-screen flex text-stone-800 flex-col bg-stone-50 px-2 border-stone-100 border-r-2">
       <Link className="flex text-xl font-bold justify-center mt-4 mb-8" to={"/"}>El R<span className="text-yellow-500">u</span>meadero<Martini className="ml-2"/></Link> 
       <Button className="justify-start" asChild variant={"ghost"}>
         <Link className=" text-lg py-6 mt-2 " to={"/foro"}><MessageCircleMore className="mr-2 ml-4"/>Foro</Link> 
@@ -25,6 +25,6 @@ export default function Header() {
       <Button className="justify-start" asChild variant={"ghost"}>
         <Link className=" text-lg py-6 mt-2 " to={"/tutorias"}><GraduationCap className="mr-2 ml-4"/>Tutorias</Link> 
       </Button>
-    </nav>
+    </div>
   )
 }

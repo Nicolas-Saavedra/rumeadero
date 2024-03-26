@@ -1,4 +1,4 @@
-import Header from "@/components/Header"
+import Sidebar from "@/components/Sidebar"
 import { Route, Routes } from "react-router-dom"
 import Home from "./routes/Home"
 import Foro from "./routes/Foro"
@@ -13,7 +13,7 @@ function App() {
   return (
     <>
       <div className="flex">
-      <Header />
+      <Sidebar />
         <div className="w-full h-screen bg-gradient-to-r bg-neutral-50">
           <Routes>
             <Route path="/" element={<Home/>}></Route>
