@@ -1,6 +1,3 @@
-
 export default function Ventas() {
-  return (
-    <div>Ventas</div>
-  )
+  return <div>Ventas</div>;
 }

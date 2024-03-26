@@ -1,6 +1,3 @@
-
 export default function Emprendimientos() {
-  return (
-    <div>Emprendimientos</div>
-  )
+  return <div>Emprendimientos</div>;
 }
