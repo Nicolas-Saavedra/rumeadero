@@ -1,3 +1,4 @@
+import { Bookmark, Heart } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -7,6 +8,9 @@ import {
 } from "../ui/Card";
 
 import dateFormatter from "dayjs";
+import { useState } from "react";
+
+const WORD_COUNT_PREVIEW_LIMIT = 40;
 
 interface ForumPreviewCardProps {
   author?: string;
@@ -22,22 +26,12 @@ export default function ForumPreviewCard({
   title,
   content,
   timestamp,
-  image,
-  imageAlt,
 }: ForumPreviewCardProps) {
-  function formatDateProperly(dateToFormat: Date) {
-    const currentDate = new Date();
-    if (
-      dateToFormat.getDate() != currentDate.getDate() ||
-      dateToFormat.getMonth() != currentDate.getFullYear() ||
-      dateToFormat.getFullYear() != currentDate.getFullYear()
-    ) {
-      return dateFormatter(dateToFormat).format("MMM DD");
-    }
-    return `Today, ${dateFormatter(dateToFormat).format("HH:mm")}`;
-  }
+  const [like, setLike] = useState(false);
+  const [bookmark, setBookmark] = useState(false);
+
   return (
-    <Card>
+    <Card className="min-h-44 relative">
       <CardHeader>
         <CardTitle>{title}</CardTitle>
         <CardDescription>
@@ -45,13 +39,51 @@ export default function ForumPreviewCard({
           {formatDateProperly(timestamp)}
         </CardDescription>
       </CardHeader>
-      <CardContent>
-        {image ? (
-          <img src={image} alt={imageAlt} />
-        ) : (
-          <span>{content.substring(0, 50)}</span>
-        )}
+      <CardContent className="mb-12">
+        <span>{formatContentPreview(content)}</span>
       </CardContent>
+      <div className="absolute bottom-4 left-6">
+        <div className="flex flex-row">
+          <Heart
+            className={
+              "text-gray-500 hover:scale-90 duration-300 " +
+              (like && "text-red-400")
+            }
+            onClick={() => setLike(!like)}
+          />
+          <Bookmark
+            className={
+              "text-gray-500 ml-3 hover:scale-90 duration-300 " +
+              (bookmark && "text-green-400")
+            }
+            onClick={() => setBookmark(!bookmark)}
+          />
+        </div>
+      </div>
     </Card>
   );
+}
+
+function formatDateProperly(dateToFormat: Date) {
+  const currentDate = new Date();
+  if (
+    dateToFormat.getDate() != currentDate.getDate() ||
+    dateToFormat.getMonth() != currentDate.getFullYear() ||
+    dateToFormat.getFullYear() != currentDate.getFullYear()
+  ) {
+    return dateFormatter(dateToFormat).format("MMM DD");
+  }
+  return `Today, ${dateFormatter(dateToFormat).format("HH:mm")}`;
+}
+
+function formatContentPreview(content: string) {
+  const words = content.split(" ");
+  if (words.length > WORD_COUNT_PREVIEW_LIMIT) {
+    return (
+      words
+        .slice(0, WORD_COUNT_PREVIEW_LIMIT)
+        .reduce((word, acc) => acc + " " + word) + "..."
+    );
+  }
+  return content;
 }
