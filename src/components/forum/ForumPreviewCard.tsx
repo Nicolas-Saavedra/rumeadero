@@ -16,6 +16,7 @@ interface ForumPreviewCardProps {
   author?: string;
   title: string;
   content: string;
+  likes: number;
   timestamp: Date;
   image?: string;
   imageAlt?: string;
@@ -25,13 +26,22 @@ export default function ForumPreviewCard({
   author,
   title,
   content,
+  likes,
   timestamp,
 }: ForumPreviewCardProps) {
   const [like, setLike] = useState(false);
   const [bookmark, setBookmark] = useState(false);
 
+  function sendLike() {
+    setLike(!like);
+  }
+
+  function sendBookmark() {
+    setBookmark(!bookmark);
+  }
+
   return (
-    <Card className="min-h-44 relative">
+    <Card className="min-h-64 relative hover:bg-slate-100 hover:cursor-pointer">
       <CardHeader>
         <CardTitle>{title}</CardTitle>
         <CardDescription>
@@ -44,19 +54,27 @@ export default function ForumPreviewCard({
       </CardContent>
       <div className="absolute bottom-4 left-6">
         <div className="flex flex-row">
-          <Heart
-            className={
-              "text-gray-500 hover:scale-90 duration-300 " +
-              (like && "text-red-400")
-            }
-            onClick={() => setLike(!like)}
-          />
+          <div className="flex flex-row " onClick={sendLike}>
+            <Heart
+              className={
+                "text-gray-500 hover:scale-90 duration-300 " +
+                (like && "text-red-400")
+              }
+            />
+            <span
+              className={
+                "text-gray-500 ml-2 duration-300 " + (like && "text-red-400")
+              }
+            >
+              {like ? likes + 1 : likes || 0}
+            </span>
+          </div>
           <Bookmark
             className={
               "text-gray-500 ml-3 hover:scale-90 duration-300 " +
               (bookmark && "text-green-400")
             }
-            onClick={() => setBookmark(!bookmark)}
+            onClick={sendBookmark}
           />
         </div>
       </div>
