@@ -4,13 +4,16 @@ import { BrowserRouter } from "react-router-dom";
 import App from "./App.tsx";
 import "./global.css";
 import { FirebaseProvider } from "./context/firebaseContext.tsx";
+import { DialogProvider } from "./context/dialogContext.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <FirebaseProvider>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <DialogProvider>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </DialogProvider>
     </FirebaseProvider>
   </React.StrictMode>,
 );

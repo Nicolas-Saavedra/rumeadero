@@ -7,6 +7,7 @@ import Grupos from "./routes/Grupos";
 import Emprendimientos from "./routes/Emprendimientos";
 import Ventas from "./routes/Ventas";
 import Tutorias from "./routes/Tutorias";
+import DialogManager from "./components/dialog/DialogManager";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           </Routes>
         </div>
       </div>
+      <DialogManager />
     </>
   );
 }
