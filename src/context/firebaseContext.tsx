@@ -1,5 +1,5 @@
 import { FirebaseApp, initializeApp } from "firebase/app";
-import { Context, createContext, useContext } from "react";
+import { createContext, useContext } from "react";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDULZBN1NaugiY_iNLJD4thCK43j-rZjmo",
@@ -11,20 +11,24 @@ const firebaseConfig = {
   measurementId: "G-066PPRZDN5",
 };
 
-let FirebaseContext: Context<FirebaseApp>;
+const FirebaseContext = createContext<FirebaseApp | null>(null);
 
-type FirebaseProviderProps = {
+interface FirebaseProviderProps {
   children: JSX.Element;
-};
+}
 
 export function useFirebaseApp() {
-  return useContext(FirebaseContext);
+  const app = useContext(FirebaseContext);
+  if (!app) {
+    console.error(
+      "ERROR: No firebase app was supplied, web app may not read/write data properly to external server",
+    );
+  }
+  return app!;
 }
 
 export function FirebaseProvider({ children }: FirebaseProviderProps) {
   const app = initializeApp(firebaseConfig);
-
-  FirebaseContext = createContext<FirebaseApp>(app);
 
   return (
     <FirebaseContext.Provider value={app}>{children}</FirebaseContext.Provider>
