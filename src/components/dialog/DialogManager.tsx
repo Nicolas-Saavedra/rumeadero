@@ -1,10 +1,8 @@
 import { useDialog } from "@/context/dialogContext";
 import { useEffect } from "react";
-import { Dialog, DialogContent, DialogHeader } from "../ui/Dialog";
-import { LoginDialogHeader } from "../login/LoginDialogHeader";
-import { SignUpDialogHeader } from "../login/SignUpDialogHeader";
-import { SignUpDialogContent } from "../login/SignUpDialogContent";
-import { LoginDialogContent } from "../login/LoginDialogBody";
+import { Dialog, DialogContent } from "../ui/Dialog";
+import { SignUpDialog } from "../login/SignUpDialog";
+import { LoginDialog } from "../login/LoginDialog";
 
 export default function DialogManager() {
   const [dialog, setDialog] = useDialog();
@@ -18,13 +16,9 @@ export default function DialogManager() {
         open={dialog !== "none"}
         onOpenChange={(open) => !open && setDialog("none")}
       >
-        <DialogHeader>
-          {dialog === "login" && <LoginDialogHeader />}
-          {dialog === "signup" && <SignUpDialogHeader />}
-        </DialogHeader>
         <DialogContent>
-          {dialog === "login" && <LoginDialogContent />}
-          {dialog === "signup" && <SignUpDialogContent />}
+          {dialog === "login" && <LoginDialog />}
+          {dialog === "signup" && <SignUpDialog />}
         </DialogContent>
       </Dialog>
     </>

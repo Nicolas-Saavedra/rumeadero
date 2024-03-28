@@ -4,11 +4,18 @@ import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
 import { useDialogSet } from "@/context/dialogContext";
+import { DialogDescription, DialogHeader, DialogTitle } from "../ui/Dialog";
 
-export function LoginDialogContent() {
+export function LoginDialog() {
   const setDialog = useDialogSet();
   return (
     <>
+      <DialogHeader>
+        <DialogTitle className="text-2xl">Iniciar sesión</DialogTitle>
+        <DialogDescription>
+          Inserte su direccion de correo electronico para acceder a su cuenta
+        </DialogDescription>
+      </DialogHeader>
       <div className="grid gap-4">
         <div className="grid gap-2">
           <Label htmlFor="email">Email</Label>
@@ -16,24 +23,29 @@ export function LoginDialogContent() {
         </div>
         <div className="grid gap-2">
           <div className="flex items-center">
-            <Label htmlFor="password">Password</Label>
+            <Label htmlFor="password">Contraseña</Label>
             <Link to="#" className="ml-auto inline-block text-sm underline">
-              Forgot your password?
+              Olvidaste tu contraseña?
             </Link>
           </div>
           <Input id="password" type="password" required />
         </div>
         <Button type="submit" className="w-full">
-          Login
+          Iniciar Session
         </Button>
         <Button variant="outline" className="w-full">
-          Login with Google
+          <img className="mr-2 h-5" src="./google.svg" alt="" />
+          Iniciar Session con Google
+        </Button>
+        <Button variant="outline" className="w-full">
+          <img className="mr-2 h-5" src="./microsoft.svg" alt="" />
+          Iniciar Session con Microsoft
         </Button>
       </div>
       <div className="mt-4 text-center text-sm">
-        Don&apos;t have an account?{" "}
+        ¿No tienes una cuenta?{" "}
         <Link onClick={() => setDialog("signup")} to="#" className="underline">
-          Sign up
+          Inscribete aqui
         </Link>
       </div>
     </>
