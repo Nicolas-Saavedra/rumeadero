@@ -13,7 +13,7 @@ export default function Home() {
           </h1>
           <Button
             className="rounded w-48 h-12 text-xl text-stone-900 bg-yellow-300 hover:bg-yellow-200 mt-8"
-            onClick={() => setDialog("login")}
+            onClick={() => setDialog("signup")}
           >
             Unete ahora!
           </Button>
