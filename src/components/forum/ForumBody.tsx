@@ -40,12 +40,10 @@ export default function ForumBody() {
     },
   ];
 
-  console.log(forumPosts);
-
   return (
     <div className="grid grid-cols-3 mt-12 gap-6">
-      {forumPosts.map((post) => (
-        <ForumPreviewCard {...post} />
+      {forumPosts.map((post, i) => (
+        <ForumPreviewCard key={i} {...post} />
       ))}
     </div>
   );
