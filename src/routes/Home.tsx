@@ -1,7 +1,8 @@
 import { Button } from "@/components/ui/Button";
-import { Link } from "react-router-dom";
+import { useDialogSet } from "@/context/dialogContext";
 
 export default function Home() {
+  const setDialog = useDialogSet();
   return (
     <div className="p-16 relative min-h-screen">
       <div className="flex">
@@ -10,13 +11,11 @@ export default function Home() {
             El lugar preferido para el{" "}
             <span className="text-yellow-400">Uniandino</span> comunitario
           </h1>
-          <Button className="rounded" asChild>
-            <Link
-              to="/foro"
-              className="w-48 text-xl text-stone-900 bg-yellow-300 hover:bg-yellow-200 mt-8"
-            >
-              Unete ahora!
-            </Link>
+          <Button
+            className="rounded w-48 h-12 text-xl text-stone-900 bg-yellow-300 hover:bg-yellow-200 mt-8"
+            onClick={() => setDialog("login")}
+          >
+            Unete ahora!
           </Button>
         </div>
         <img
