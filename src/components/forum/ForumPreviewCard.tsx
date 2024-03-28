@@ -54,10 +54,10 @@ export default function ForumPreviewCard({
       </CardContent>
       <div className="absolute bottom-4 left-6">
         <div className="flex flex-row">
-          <div className="flex flex-row " onClick={sendLike}>
+          <div className="flex flex-row group" onClick={sendLike}>
             <Heart
               className={
-                "text-gray-500 hover:scale-90 duration-300 " +
+                "text-gray-500 group-hover:scale-90 duration-300 " +
                 (like && "text-red-400")
               }
             />
