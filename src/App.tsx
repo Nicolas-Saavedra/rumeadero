@@ -12,9 +12,9 @@ import DialogManager from "./components/dialog/DialogManager";
 function App() {
   return (
     <>
-      <div className="flex">
+      <div className="flex px-96 bg-stone-50">
         <Sidebar />
-        <div className="w-full h-screen bg-gradient-to-r bg-neutral-50">
+        <div className="w-full h-screen bg-gradient-to-r">
           <Routes>
             <Route path="/" element={<Home />}></Route>
             <Route path="/foro" element={<Foro />}></Route>

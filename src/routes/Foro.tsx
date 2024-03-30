@@ -3,7 +3,7 @@ import ForumBody from "@/components/forum/ForumBody";
 
 export default function Foro() {
   return (
-    <div className="p-16">
+    <div className="py-8 pl-8 pr-24">
       <ForumHeader />
       <ForumBody />
     </div>

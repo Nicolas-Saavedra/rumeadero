@@ -15,59 +15,59 @@ import { useDialogSet } from "@/context/dialogContext";
 export default function Navbar() {
   const setDialog = useDialogSet();
   return (
-    <div className="sticky w-64 h-screen flex text-stone-800 flex-col justify-between bg-stone-50 px-2 border-stone-100 border-r-2">
+    <div className="sticky w-96 h-screen flex text-stone-800 flex-col justify-between px-2">
       <div className="flex flex-col">
         <Link
-          className="flex text-xl font-bold justify-center mt-4 mb-8"
+          className="flex text-2xl font-bold justify-center mt-4 mb-8 items-center"
           to={"/"}
         >
           El R<span className="text-yellow-500">u</span>meadero
           <Martini className="ml-2" />
         </Link>
         <Button className="justify-start" asChild variant={"ghost"}>
-          <Link className=" text-lg py-6 mt-2" to={"/foro"}>
-            <MessageCircleMore className="mr-2 ml-4" />
+          <Link className="text-xl py-6 mt-2" to={"/foro"}>
+            <MessageCircleMore className="mr-3 ml-4" />
             Foro
           </Link>
         </Button>
         <Button className="justify-start" asChild variant={"ghost"}>
-          <Link className=" text-lg py-6" to={"/grupos"}>
-            <Users className="mr-2 ml-4" />
+          <Link className="text-xl py-6" to={"/grupos"}>
+            <Users className="mr-3 ml-4" />
             Grupos
           </Link>
         </Button>
         <Button className="justify-start" asChild variant={"ghost"}>
-          <Link className=" text-lg py-6 mt-2" to={"/wheels"}>
-            <CarFront className="mr-2 ml-4" />
+          <Link className="text-xl py-6 mt-2" to={"/wheels"}>
+            <CarFront className="mr-3 ml-4" />
             Wheels
           </Link>
         </Button>
         <Button className="justify-start" asChild variant={"ghost"}>
-          <Link className=" text-md py-6 mt-2" to={"/emprendimientos"}>
-            <Store className="mr-2 ml-4" />
+          <Link className="text-xl py-6 mt-2" to={"/emprendimientos"}>
+            <Store className="mr-3 ml-4" />
             Emprendimientos
           </Link>
         </Button>
         <Button className="justify-start" asChild variant={"ghost"}>
-          <Link className=" text-lg py-6 mt-2" to={"/ventas"}>
-            <HandCoins className="mr-2 ml-4" />
+          <Link className="text-xl py-6 mt-2" to={"/ventas"}>
+            <HandCoins className="mr-3 ml-4" />
             Ventas
           </Link>
         </Button>
         <Button className="justify-start" asChild variant={"ghost"}>
-          <Link className=" text-lg py-6 mt-2" to={"/tutorias"}>
-            <GraduationCap className="mr-2 ml-4" />
+          <Link className="text-xl py-6 mt-2" to={"/tutorias"}>
+            <GraduationCap className="mr-3 ml-4" />
             Tutorias
           </Link>
         </Button>
       </div>
       <div className="flex flex-col">
         <Button
-          className="justify-start text-sm py-6 my-2"
+          className="justify-start text-md py-6 my-4"
           onClick={() => setDialog("login")}
           variant={"ghost"}
         >
-          <CircleUser className="mr-2 ml-4" />
+          <CircleUser className="mr-3 ml-4" />
           Iniciar sesion
         </Button>
       </div>

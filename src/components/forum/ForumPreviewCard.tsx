@@ -43,14 +43,14 @@ export default function ForumPreviewCard({
   return (
     <Card className="min-h-64 relative hover:bg-slate-100 hover:cursor-pointer">
       <CardHeader>
-        <CardTitle>{title}</CardTitle>
+        <CardTitle className="text-2xl">{title}</CardTitle>
         <CardDescription>
           {author ? `Creado por ${author}` : "Creado anonimamente"},{" "}
           {formatDateProperly(timestamp)}
         </CardDescription>
       </CardHeader>
       <CardContent className="mb-12">
-        <span>{formatContentPreview(content)}</span>
+        <span className="text-xl">{formatContentPreview(content)}</span>
       </CardContent>
       <div className="absolute bottom-4 left-6">
         <div className="flex flex-row">
