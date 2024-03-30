@@ -79,19 +79,19 @@ export default function ForumHeader() {
   );
 }
 const hotDisplayTag = (
-  <div className="text-red-400 flex flex-row">
+  <div className="text-red-400 flex flex-row items-center">
     <Flame className="mr-2" /> <span>Caliente</span>
   </div>
 );
 
 const trendingDisplayTag = (
-  <div className="text-yellow-400 flex flex-row">
+  <div className="text-yellow-400 flex flex-row items-center">
     <TrendingUp className="mr-2" /> <span>Tendencia</span>
   </div>
 );
 
 const newDisplayTag = (
-  <div className="text-blue-400 flex flex-row">
+  <div className="text-blue-400 flex flex-row items-center">
     <Sparkles className="mr-2" /> <span>Nuevo</span>
   </div>
 );
