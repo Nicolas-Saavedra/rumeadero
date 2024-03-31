@@ -8,12 +8,16 @@ import Emprendimientos from "./routes/Emprendimientos";
 import Ventas from "./routes/Ventas";
 import Tutorias from "./routes/Tutorias";
 import DialogManager from "./components/dialog/DialogManager";
+import useScreenSize from "./hooks/useScreenSize";
+import MobileSidebar from "./components/MobileSidebar";
 
 function App() {
+  const { width } = useScreenSize();
+  console.log(width);
   return (
     <>
       <div className="flex lg:px-32 xl:px-96 bg-stone-50">
-        <Sidebar />
+        {width < 768 ? <MobileSidebar /> : <Sidebar />}
         <div className="w-full h-screen bg-gradient-to-r">
           <Routes>
             <Route path="/" element={<Home />}></Route>
