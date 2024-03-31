@@ -19,7 +19,6 @@ interface ForumPreviewCardProps {
   likes: number;
   timestamp: Date;
   image?: string;
-  imageAlt?: string;
 }
 
 export default function ForumPreviewCard({
