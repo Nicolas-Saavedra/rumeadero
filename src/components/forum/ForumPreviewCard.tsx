@@ -1,8 +1,9 @@
-import { Bookmark, Heart } from "lucide-react";
+import { Bookmark, Flag, Heart } from "lucide-react";
 import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "../ui/Card";
@@ -30,6 +31,7 @@ export default function ForumPreviewCard({
 }: ForumPreviewCardProps) {
   const [like, setLike] = useState(false);
   const [bookmark, setBookmark] = useState(false);
+  const [report, setReport] = useState(false);
 
   function sendLike() {
     setLike(!like);
@@ -37,6 +39,10 @@ export default function ForumPreviewCard({
 
   function sendBookmark() {
     setBookmark(!bookmark);
+  }
+
+  function sendReport() {
+    setReport(!report);
   }
 
   return (
@@ -48,35 +54,45 @@ export default function ForumPreviewCard({
           {formatDateProperly(timestamp)}
         </CardDescription>
       </CardHeader>
-      <CardContent className="mb-12">
+      <CardContent>
         <span className="text-xl">{formatContentPreview(content)}</span>
       </CardContent>
-      <div className="absolute bottom-4 left-6">
-        <div className="flex flex-row">
-          <div className="flex flex-row group" onClick={sendLike}>
-            <Heart
+      <CardFooter>
+        <div className="flex flex-row w-full items-center justify-between">
+          <div className="flex flex-row">
+            <div className="flex flex-row group" onClick={sendLike}>
+              <Heart
+                className={
+                  "text-gray-500 group-hover:scale-90 duration-300 size-7 " +
+                  (like && "text-pink-400")
+                }
+              />
+              <span
+                className={
+                  "text-gray-500 ml-2 duration-300 text-lg " +
+                  (like && "text-pink-400")
+                }
+              >
+                {like ? likes + 1 : likes || 0}
+              </span>
+            </div>
+            <Bookmark
               className={
-                "text-gray-500 group-hover:scale-90 duration-300 " +
-                (like && "text-red-400")
+                "text-gray-500 ml-3 hover:scale-90 duration-300 size-7 " +
+                (bookmark && "text-yellow-500")
               }
+              onClick={sendBookmark}
             />
-            <span
-              className={
-                "text-gray-500 ml-2 duration-300 " + (like && "text-red-400")
-              }
-            >
-              {like ? likes + 1 : likes || 0}
-            </span>
           </div>
-          <Bookmark
+          <Flag
             className={
-              "text-gray-500 ml-3 hover:scale-90 duration-300 " +
-              (bookmark && "text-green-400")
+              "text-gray-500 ml-3 hover:scale-90 duration-300 size-7 " +
+              (report && "text-red-400")
             }
-            onClick={sendBookmark}
+            onClick={sendReport}
           />
         </div>
-      </div>
+      </CardFooter>
     </Card>
   );
 }
