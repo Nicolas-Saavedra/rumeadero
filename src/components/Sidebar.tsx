@@ -25,40 +25,37 @@ export default function Navbar() {
           <Martini className="ml-2" />
         </Link>
         <Button className="justify-start" asChild variant={"ghost"}>
-          <Link className="text-lg md:text-xl py-6 mt-2" to={"/foro"}>
+          <Link className="text-lg py-6 mt-2" to={"/foro"}>
             <MessageCircleMore className="mr-3 ml-2 md:ml-4" />
             Foro
           </Link>
         </Button>
         <Button className="justify-start" asChild variant={"ghost"}>
-          <Link className="text-lg md:text-xl py-6" to={"/grupos"}>
+          <Link className="text-lg py-6" to={"/grupos"}>
             <Users className="mr-3 ml-2 md:ml-4" />
             Grupos
           </Link>
         </Button>
         <Button className="justify-start" asChild variant={"ghost"}>
-          <Link className="text-lg md:text-xl py-6 mt-2" to={"/wheels"}>
+          <Link className="text-lg py-6 mt-2" to={"/wheels"}>
             <CarFront className="mr-3 ml-2 md:ml-4" />
             Wheels
           </Link>
         </Button>
         <Button className="justify-start" asChild variant={"ghost"}>
-          <Link
-            className="text-lg md:text-xl py-6 mt-2"
-            to={"/emprendimientos"}
-          >
+          <Link className="text-lg py-6 mt-2" to={"/emprendimientos"}>
             <Store className="mr-3 ml-2 md:ml-4" />
             Emprendimientos
           </Link>
         </Button>
         <Button className="justify-start" asChild variant={"ghost"}>
-          <Link className="text-lg md:text-xl py-6 mt-2" to={"/ventas"}>
+          <Link className="text-lg py-6 mt-2" to={"/ventas"}>
             <HandCoins className="mr-3 ml-2 md:ml-4" />
             Ventas
           </Link>
         </Button>
         <Button className="justify-start" asChild variant={"ghost"}>
-          <Link className="text-lg md:text-xl py-6 mt-2" to={"/tutorias"}>
+          <Link className="text-lg py-6 mt-2" to={"/tutorias"}>
             <GraduationCap className="mr-3 ml-2 md:ml-4" />
             Tutorias
           </Link>

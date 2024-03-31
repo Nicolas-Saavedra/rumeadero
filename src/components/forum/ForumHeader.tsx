@@ -37,7 +37,7 @@ export default function ForumHeader() {
     <div className="flex flex-row">
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button className="w-36 mr-4" variant={"outline"}>
+          <Button className="w-36 mr-4 text-sm" variant={"outline"}>
             {triggerDisplayTag}
           </Button>
         </DropdownMenuTrigger>
@@ -67,7 +67,7 @@ export default function ForumHeader() {
       />
       <Button
         onClick={() => setDialog("login")}
-        className="mr-4 duration-300"
+        className="mr-4 duration-300 text-sm"
         variant={"default"}
       >
         Crear Post
