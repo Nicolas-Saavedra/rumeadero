@@ -8,8 +8,6 @@ import {
   CardTitle,
 } from "../ui/Card";
 import SocialMediaLogo from "../ui/SocialMediaLogo";
-import { Button } from "../ui/Button";
-import { Link } from "react-router-dom";
 
 interface GroupPreviewCardProps {
   name: string;
