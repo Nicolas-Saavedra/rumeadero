@@ -1,4 +1,4 @@
-import { GroupPreview } from "@/types/types";
+import { GroupPreview } from "@/types";
 import GroupPreviewCard from "./GroupPreviewCard";
 
 export default function GroupBody() {

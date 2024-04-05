@@ -1,4 +1,4 @@
-import { GroupSocialMedia } from "@/types/types";
+import { GroupSocialMedia } from "@/types";
 import {
   Card,
   CardContent,

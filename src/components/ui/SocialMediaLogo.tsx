@@ -1,4 +1,4 @@
-import { SocialMedia } from "@/types/types";
+import { SocialMedia } from "@/types";
 import { Users } from "lucide-react";
 
 interface SocialMediaLogoProps {
