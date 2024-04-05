@@ -13,7 +13,6 @@ import MobileSidebar from "./components/MobileSidebar";
 
 function App() {
   const { width } = useScreenSize();
-  console.log(width);
   return (
     <>
       <div className="flex lg:px-32 xl:px-96 bg-stone-50">
