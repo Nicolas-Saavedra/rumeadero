@@ -5,6 +5,7 @@ import (
 	"os"
 	"strings"
 
+	_ "github.com/Nicolas-Saavedra/rumeadero-backend/migrations"
 	"github.com/pocketbase/pocketbase"
 	"github.com/pocketbase/pocketbase/plugins/migratecmd"
 )
