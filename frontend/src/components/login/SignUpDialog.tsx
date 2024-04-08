@@ -35,14 +35,6 @@ export function SignUpDialog() {
         <Button type="submit" className="w-full">
           Crea tu cuenta
         </Button>
-        <Button variant="outline" className="w-full">
-          <img className="mr-2 h-5" src="./google.svg" alt="" />
-          Crea una cuenta con Google
-        </Button>
-        <Button variant="outline" className="w-full">
-          <img className="mr-2 h-5" src="./microsoft.svg" alt="" />
-          Crea una cuenta con Microsoft
-        </Button>
       </div>
       <div className="mt-4 text-center text-sm">
         ¿Ya tienes una cuenta?{" "}
