@@ -1,21 +1,29 @@
 import { ImageUrl, Integer, Tag } from "./primitives";
+import { PublicUser } from "./user";
 
 // Represents a forum post identifier
 export type ForumPostId = string;
 
-export type ForumPostPreview = {
+export type ForumPostSimple = {
   id: ForumPostId;
-  author?: string;
+  author?: PublicUser;
   title: string;
   content: string;
-  likes: Integer;
+  liked: boolean;
+  numberOfLikes: Integer;
   tags: Tag[];
   timestamp: Date;
   image?: ImageUrl;
 };
 
-export type ForumPost = ForumPostPreview & {
+export type ForumPost = ForumPostSimple & {
   comments: ForumPostComment[];
 };
 
-export type ForumPostComment = {};
+export type ForumPostComment = {
+  id: ForumPostId;
+  author?: PublicUser;
+  content: string;
+  liked: boolean;
+  numberOfLikes: Integer;
+};

@@ -1,34 +1,35 @@
-import { ImageUrl, Integer, SocialMedia, ResourceUrl } from "./primitives";
+import { ImageUrl, SocialMedia, ResourceUrl, Integer } from "./primitives";
+import { PublicUser } from "./user";
 
 // Represents a forum post identifier
 export type GroupPostId = string;
 // Represents a group identifier
 export type GroupId = string;
 
-export type GroupPreview = {
+export type GroupSimple = {
   id: GroupId;
   name: string;
+  owner?: PublicUser;
   shortDescription: string;
-  numberMembers: Integer;
+  smallImage?: ImageUrl;
   primarySocialMedia: GroupSocialMedia;
   socialMedia: GroupSocialMedia[];
-  smallImage?: ImageUrl;
-};
-
-export type Group = GroupPreview & {
-  owner: string;
-  creationDate: Date;
+  isMember: boolean;
+  numberOfMembers: Integer;
   fullDescription: string;
   imageBanner: string;
-  lastFivePublicPosts: GroupPost[];
+};
+
+export type Group = GroupSimple & {
+  posts: GroupPost[];
 };
 
 export type GroupPost = {
   id: GroupPostId;
-  author?: string;
+  created: Date;
+  owner: PublicUser;
   title: string;
   content: string;
-  timestamp: Date;
   image?: ImageUrl;
 };
 
