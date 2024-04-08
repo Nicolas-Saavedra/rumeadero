@@ -8,6 +8,7 @@ import {
   CardTitle,
 } from "../ui/Card";
 import SocialMediaLogo from "../ui/SocialMediaLogo";
+import { Users } from "lucide-react";
 
 interface GroupPreviewCardProps {
   name: string;
@@ -47,7 +48,10 @@ export default function GroupPreviewCard({
         </div>
       </CardContent>
       <CardFooter className="flex flex-row justify-between">
-        <span className="text-sm">Members: {numberMembers}</span>
+        <div className="flex items-center text-gray-600">
+          <Users />
+          <span className="text-sm ml-1">{numberMembers}</span>
+        </div>
         <a href={primarySocialMedia.link}>
           <SocialMediaLogo
             className="w-8"

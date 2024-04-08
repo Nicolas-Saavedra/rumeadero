@@ -10,7 +10,7 @@ export default function GroupHeader() {
       <Input type="text" placeholder="Buscar grupos..." className="mr-4" />
       <Button
         onClick={() => setDialog("login")}
-        className="mr-4 duration-300 bg-yellow-400"
+        className="mr-4 duration-300 text-sm bg-yellow-400"
         variant={"default"}
       >
         Crear un nuevo grupo
