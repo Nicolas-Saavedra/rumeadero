@@ -10,6 +10,7 @@ import Tutorias from "./routes/Tutorias";
 import DialogManager from "./components/dialog/DialogManager";
 import useScreenSize from "./hooks/useScreenSize";
 import MobileSidebar from "./components/MobileSidebar";
+import ForoDetail from "./routes/ForoDetail";
 
 function App() {
   const { width } = useScreenSize();
@@ -21,6 +22,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />}></Route>
             <Route path="/foro" element={<Foro />}></Route>
+            <Route path="/foro/:id" element={<ForoDetail />}></Route>
             <Route path="/wheels" element={<Wheels />}></Route>
             <Route path="/grupos" element={<Grupos />}></Route>
             <Route
