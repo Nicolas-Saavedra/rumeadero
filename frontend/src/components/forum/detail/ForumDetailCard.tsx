@@ -1,3 +1,5 @@
+import { Card } from "@/components/ui/Card";
+
 export default function ForumDetailCard() {
-  return <div>ForumDetailCard</div>;
+  return <Card></Card>;
 }
