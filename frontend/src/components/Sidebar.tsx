@@ -15,7 +15,7 @@ import { useDialogSet } from "@/context/dialogContext";
 export default function Navbar() {
   const setDialog = useDialogSet();
   return (
-    <div className="sticky w-64 md:w-96 h-screen flex text-stone-800 flex-col justify-between px-2">
+    <div className="sticky top-0 w-48 md:w-72 h-screen flex text-stone-800 flex-col justify-between px-2">
       <div className="flex flex-col ml-4 md:ml-0">
         <Link
           className="flex text-xl md:text-2xl font-bold justify-center mt-8 mb-4 items-center"

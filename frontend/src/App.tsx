@@ -11,14 +11,34 @@ import DialogManager from "./components/dialog/DialogManager";
 import useScreenSize from "./hooks/useScreenSize";
 import MobileSidebar from "./components/MobileSidebar";
 import ForoDetail from "./routes/ForoDetail";
+import { useEffect, useRef, useState } from "react";
 
 function App() {
+  const [sidebarHeight, setSidebarHeight] = useState(0);
+  const mainContentRef = useRef<HTMLDivElement>(null);
+
   const { width } = useScreenSize();
+  useEffect(() => {
+    if (mainContentRef.current) {
+      setSidebarHeight(mainContentRef.current.clientHeight);
+      new ResizeObserver((entries) =>
+        setSidebarHeight(entries[0].target.clientHeight),
+      ).observe(mainContentRef.current);
+    }
+  }, []);
   return (
     <>
-      <div className="flex lg:px-32 xl:px-96 bg-stone-50">
-        {width < 768 ? <MobileSidebar /> : <Sidebar />}
-        <div className="w-full h-screen bg-gradient-to-r">
+      <div className="flex lg:px-32 xl:px-96 bg-stone-50 h-full">
+        <div
+          style={{ height: sidebarHeight }}
+          className="min-h-screen h-full flex-grow"
+        >
+          {width < 768 ? <MobileSidebar /> : <Sidebar />}
+        </div>
+        <div
+          ref={mainContentRef}
+          className="w-full min-h-screen h-full bg-gradient-to-r"
+        >
           <Routes>
             <Route path="/" element={<Home />}></Route>
             <Route path="/foro" element={<Foro />}></Route>

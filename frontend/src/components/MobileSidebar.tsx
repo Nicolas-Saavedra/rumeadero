@@ -15,7 +15,7 @@ import { useDialogSet } from "@/context/dialogContext";
 export default function MobileSidebar() {
   const setDialog = useDialogSet();
   return (
-    <div className="sticky w-16 sm:w-24 h-screen flex text-stone-800 flex-col justify-between px-0 md:px-2">
+    <div className="sticky w-16 sm:w-24 h-screen flex text-stone-800 flex-col justify-between px-0 md:px-2 top-0">
       <div className="flex flex-col ml-4">
         <Link
           className="flex text-xl md:text-2xl font-bold justify-center mt-9 mb-8 items-center"

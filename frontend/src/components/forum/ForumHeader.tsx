@@ -34,7 +34,7 @@ export default function ForumHeader() {
   }
 
   return (
-    <div className="flex flex-row">
+    <div className="flex flex-row sticky top-0">
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button className="w-36 mr-4 text-sm" variant={"outline"}>
