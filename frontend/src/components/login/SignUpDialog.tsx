@@ -2,11 +2,11 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
-import { useDialogSet } from "@/context/dialogContext";
 import { DialogDescription, DialogHeader, DialogTitle } from "../ui/Dialog";
+import { useDialogSetter } from "@/stores/dialogStore";
 
 export function SignUpDialog() {
-  const setDialog = useDialogSet();
+  const setDialog = useDialogSetter();
   return (
     <>
       <DialogHeader>

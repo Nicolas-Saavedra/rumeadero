@@ -10,10 +10,10 @@ import {
   Martini,
   CircleUser,
 } from "lucide-react";
-import { useDialogSet } from "@/context/dialogContext";
+import { useDialogSetter } from "@/stores/dialogStore";
 
 export default function Navbar() {
-  const setDialog = useDialogSet();
+  const setDialog = useDialogSetter();
   return (
     <div className="sticky top-0 w-48 md:w-72 h-screen flex text-stone-800 flex-col justify-between px-2">
       <div className="flex flex-col ml-4 md:ml-0">

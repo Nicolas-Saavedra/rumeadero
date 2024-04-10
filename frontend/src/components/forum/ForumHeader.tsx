@@ -1,7 +1,6 @@
 import { Input } from "../ui/Input";
 import { Button } from "../ui/Button";
 import { Flame, Info, Sparkles, TrendingUp } from "lucide-react";
-import { useDialogSet } from "@/context/dialogContext";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,11 +11,12 @@ import {
   DropdownMenuTrigger,
 } from "../ui/DropdownMenu";
 import { useState } from "react";
+import { useDialogSetter } from "@/stores/dialogStore";
 
 type FilterState = "hot" | "trending" | "new";
 
 export default function ForumHeader() {
-  const setDialog = useDialogSet();
+  const setDialog = useDialogSetter();
   const [filterState, setFilterState] = useState<FilterState>("new");
 
   let triggerDisplayTag;

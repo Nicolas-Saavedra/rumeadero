@@ -1,10 +1,10 @@
-import { useDialogSet } from "@/context/dialogContext";
 import { Input } from "../ui/Input";
 import { Button } from "../ui/Button";
 import { Info } from "lucide-react";
+import { useDialogSetter } from "@/stores/dialogStore";
 
 export default function GroupHeader() {
-  const setDialog = useDialogSet();
+  const setDialog = useDialogSetter();
   return (
     <div className="flex flex-row">
       <Input type="text" placeholder="Buscar grupos..." className="mr-4" />

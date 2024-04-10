@@ -1,10 +1,11 @@
-import { useDialog } from "@/context/dialogContext";
 import { Dialog, DialogContent } from "../ui/Dialog";
 import { SignUpDialog } from "../login/SignUpDialog";
 import { LoginDialog } from "../login/LoginDialog";
+import { useDialogSetter, useDialogValue } from "@/stores/dialogStore";
 
 export default function DialogManager() {
-  const [dialog, setDialog] = useDialog();
+  const dialog = useDialogValue();
+  const setDialog = useDialogSetter();
 
   return (
     <>

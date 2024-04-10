@@ -1,8 +1,8 @@
 import { Button } from "@/components/ui/Button";
-import { useDialogSet } from "@/context/dialogContext";
+import { useDialogSetter } from "@/stores/dialogStore";
 
 export default function Home() {
-  const setDialog = useDialogSet();
+  const setDialog = useDialogSetter();
   return (
     <div className="p-16 relative min-h-screen">
       <div className="flex">
