@@ -5,10 +5,12 @@ export type EnabledDialog = "none" | "signup" | "login";
 
 type EnabledDialogState = {
   value: EnabledDialog;
+  meta: Record<string, any> | null;
 };
 
 const initialState: EnabledDialogState = {
   value: "none",
+  meta: null,
 };
 
 const slice = createSlice({
@@ -17,6 +19,11 @@ const slice = createSlice({
   reducers: {
     switch: (state, action: PayloadAction<EnabledDialog>) => {
       state.value = action.payload;
+      state.meta = null;
+    },
+    switchWithMeta: (state, action: PayloadAction<EnabledDialogState>) => {
+      state.value = action.payload.value;
+      state.meta = action.payload.meta;
     },
   },
 });
@@ -33,10 +40,27 @@ export function useDialogValue(): EnabledDialog {
   return useSelector((state: EnabledDialogState) => state.value);
 }
 
+export function useDialogValueWithMeta<T = Record<string, any>>(): [
+  EnabledDialog,
+  T | null,
+] {
+  return useSelector((state: EnabledDialogState) => [
+    state.value,
+    state.meta as T,
+  ]);
+}
+
 export function useDialogSetter() {
   const dispatch = useDispatch();
   return (dialog: EnabledDialog) => {
     dispatch(slice.actions.switch(dialog));
+  };
+}
+
+export function useDialogSetterWithMeta() {
+  const dispatch = useDispatch();
+  return (value: EnabledDialog, meta: Record<string, any>) => {
+    dispatch(slice.actions.switchWithMeta({ value, meta }));
   };
 }
 
