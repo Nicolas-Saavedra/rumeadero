@@ -27,7 +27,7 @@ func main() {
 	// disallow access to the app in general if no email verification has passed
 	app.OnRecordAuthRequest("users").Add(func(e *core.RecordAuthEvent) error {
 		if !e.Record.Verified() {
-			return fmt.Errorf("user has not verified their account properly, please check your email")
+			return fmt.Errorf("user has not verified their account properly")
 		}
 		return nil
 	})
