@@ -2,6 +2,7 @@ import { ImageUrl } from "./primitives";
 
 export type PublicUser = {
   username: string;
+  verified: boolean;
   avatar: ImageUrl;
   lastActivity: Date;
 };
