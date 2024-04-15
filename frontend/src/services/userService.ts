@@ -4,7 +4,7 @@ import { toFormData } from "@/lib/utils";
 import { PublicUser } from "@/types";
 import { pb } from "../lib/pocketbase";
 
-async function registerUser(username: string, email: string, password: string) {
+export async function registerUser(username: string, email: string, password: string) {
   const recordToAdd = {
     username,
     email,
@@ -21,19 +21,19 @@ async function registerUser(username: string, email: string, password: string) {
   return await pb.collection("users").create(formData);
 }
 
-async function fetchUser(userId: string) {
+export async function fetchUser(userId: string) {
   return await pb.collection("users").getOne<PublicUser>(userId);
 }
 
-async function requestVerificationUser(email: string) {
+export async function requestVerificationUser(email: string) {
   pb.collection("users").requestVerification(email);
 }
 
-async function sendVerificationUser(token: string) {
+export async function sendVerificationUser(token: string) {
   pb.collection("users").confirmVerification(token);
 }
 
-async function notifyUserWasVerified(
+export async function notifyUserWasVerified(
   userId: string,
   setter: (verified: boolean) => void,
 ) {
@@ -42,6 +42,6 @@ async function notifyUserWasVerified(
   });
 }
 
-async function loginWithEmailOrName(emailOrName: string, password: string) {
+export async function loginWithEmailOrName(emailOrName: string, password: string) {
   pb.collection("users").authWithPassword<PublicUser>(emailOrName, password);
 }
