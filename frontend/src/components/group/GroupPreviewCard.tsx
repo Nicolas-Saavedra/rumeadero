@@ -14,7 +14,7 @@ interface GroupPreviewCardProps {
   name: string;
   slogan?: string;
   shortDescription: string;
-  numberMembers: number;
+  numberOfMembers: number;
   primarySocialMedia: GroupSocialMedia;
   smallImage?: string;
 }
@@ -23,7 +23,7 @@ export default function GroupPreviewCard({
   name,
   slogan,
   shortDescription,
-  numberMembers,
+  numberOfMembers,
   primarySocialMedia,
   smallImage,
 }: GroupPreviewCardProps) {
@@ -39,8 +39,8 @@ export default function GroupPreviewCard({
             src={
               smallImage ||
               "https://placehold.co/100?text=" +
-                name.split(" ").slice(0, 2).join("+") +
-                "&font=montserrat"
+              name.split(" ").slice(0, 2).join("+") +
+              "&font=montserrat"
             }
             alt={`Group image ${name}`}
           />
@@ -50,7 +50,7 @@ export default function GroupPreviewCard({
       <CardFooter className="flex flex-row justify-between">
         <div className="flex items-center text-gray-600">
           <Users />
-          <span className="text-sm ml-1">{numberMembers}</span>
+          <span className="text-sm ml-1">{numberOfMembers}</span>
         </div>
         <a href={primarySocialMedia.link}>
           <SocialMediaLogo

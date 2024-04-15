@@ -1,14 +1,15 @@
-import { GroupPreview } from "@/types";
+import { GroupSimple } from "@/types";
 import GroupPreviewCard from "./GroupPreviewCard";
 
 export default function GroupBody() {
-  const groups: GroupPreview[] = [
+  const groups: GroupSimple[] = [
     {
       id: "1",
       name: "Programming Club",
       shortDescription:
         "A community for programmers to collaborate and learn together.",
-      numberMembers: 150,
+      fullDescription: "",
+      imageBanner: "https://placehold.co/800x400",
       primarySocialMedia: {
         socialMediaName: "discord",
         link: "https://discord.gg/programmingclub",
@@ -23,18 +24,23 @@ export default function GroupBody() {
           link: "https://t.me/programmingclub",
         },
       ],
+      isMember: false,
+      numberOfMembers: 30,
     },
     {
       id: "2",
       name: "Art Enthusiasts",
       shortDescription:
         "A group for artists to share their work and discuss techniques.",
-      numberMembers: 80,
+      fullDescription: "A group for artists to share their work and discuss techniques.",
+      imageBanner: "https://placehold.co/800x400",
       primarySocialMedia: {
         socialMediaName: "telegram",
         link: "https://t.me/artenthusiasts",
       },
       socialMedia: [],
+      isMember: true,
+      numberOfMembers: 30,
     },
   ];
   return (

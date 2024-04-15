@@ -10,14 +10,16 @@ import {
 
 import dateFormatter from "dayjs";
 import { useState } from "react";
+import { PublicUser } from "@/types";
 
 const WORD_COUNT_PREVIEW_LIMIT = 40;
 
 interface ForumPreviewCardProps {
-  author?: string;
+  author?: PublicUser;
   title: string;
   content: string;
-  likes: number;
+  liked: boolean;
+  numberOfLikes: number;
   timestamp: Date;
   image?: string;
 }
@@ -26,10 +28,11 @@ export default function ForumPreviewCard({
   author,
   title,
   content,
-  likes,
+  liked,
+  numberOfLikes,
   timestamp,
 }: ForumPreviewCardProps) {
-  const [like, setLike] = useState(false);
+  const [like, setLike] = useState(liked);
   const [bookmark, setBookmark] = useState(false);
   const [report, setReport] = useState(false);
 
@@ -50,7 +53,7 @@ export default function ForumPreviewCard({
       <CardHeader>
         <CardTitle className="text-2xl">{title}</CardTitle>
         <CardDescription>
-          {author ? `Creado por ${author}` : "Creado anonimamente"},{" "}
+          {author ? `Creado por ${author.username}` : "Creado anonimamente"},{" "}
           {formatDateProperly(timestamp)}
         </CardDescription>
       </CardHeader>
@@ -73,7 +76,7 @@ export default function ForumPreviewCard({
                   (like && "text-pink-400")
                 }
               >
-                {like ? likes + 1 : likes || 0}
+                {like ? numberOfLikes + 1 : numberOfLikes || 0}
               </span>
             </div>
             <Bookmark
