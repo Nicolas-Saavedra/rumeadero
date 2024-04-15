@@ -1,7 +1,7 @@
 import { PayloadAction, configureStore, createSlice } from "@reduxjs/toolkit";
 import { Provider, useDispatch, useSelector } from "react-redux";
 
-export type EnabledDialog = "none" | "signup" | "login";
+export type EnabledDialog = "none" | "signup" | "login" | "email";
 
 type EnabledDialogState = {
   value: EnabledDialog;
@@ -40,14 +40,8 @@ export function useDialogValue(): EnabledDialog {
   return useSelector((state: EnabledDialogState) => state.value);
 }
 
-export function useDialogValueWithMeta<T = Record<string, any>>(): [
-  EnabledDialog,
-  T | null,
-] {
-  return useSelector((state: EnabledDialogState) => [
-    state.value,
-    state.meta as T,
-  ]);
+export function useDialogMeta<T = Record<string, any>>(): T | null {
+  return useSelector((state: EnabledDialogState) => state.meta as T);
 }
 
 export function useDialogSetter() {

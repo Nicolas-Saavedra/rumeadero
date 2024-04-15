@@ -1,6 +1,6 @@
 import { MailPlus } from "lucide-react";
-import { DialogContent, DialogHeader, DialogTitle } from "../ui/Dialog";
-import { useDialogValueWithMeta } from "@/stores/dialogStore";
+import { DialogHeader, DialogTitle } from "../ui/Dialog";
+import { useDialogMeta } from "@/stores/dialogStore";
 import { useEffect, useState } from "react";
 
 interface EmailSentMeta {
@@ -8,59 +8,57 @@ interface EmailSentMeta {
 }
 
 export default function EmailSentDialog() {
-  const [timer, setTimer] = useState<NodeJS.Timeout | null>(null);
-  const [time, setTime] = useState(30);
-  const [_, meta] = useDialogValueWithMeta<EmailSentMeta>();
+  const [time, setTime] = useState<number>(0);
+  const meta = useDialogMeta<EmailSentMeta>();
 
   function createNewTimer() {
-    setTime(30);
-    setTimer(
-      setInterval(() => {
-        if (time == 0) {
-          clearInterval(timer!);
-          setTimer(null);
-        }
-        setTime((val) => val - 1);
-      }, 1000),
-    );
+    setTime(15);
+    const interval = setInterval(() => {
+      setTime((prevTime) => (prevTime > 0 ? prevTime - 1 : prevTime));
+    }, 1000);
+    return () => clearInterval(interval);
   }
 
   function sendConfirmationMail() {
-    createNewTimer();
+    setTime(15);
     // Add code to handle confirmation mail
   }
 
-  useEffect(createNewTimer, []);
+  useEffect(() => {
+    const clearFunc = createNewTimer();
+    return clearFunc;
+  }, []);
 
   return (
     <>
       <DialogHeader>
-        <DialogTitle>Correo de verificacion enviado</DialogTitle>
+        <DialogTitle className="text-2xl">Correo de verificacion enviado</DialogTitle>
       </DialogHeader>
-      <DialogContent>
-        <div className="flex items-center">
-          <MailPlus className="w-32" />
-        </div>
-        <p>
-          Hemos enviado un correo a <b>{meta?.email}</b>. Revisa tu bandeja de
-          entrada para verificar tu cuenta y luego vuelve a esta pagina
-        </p>
-        <span>No te ha llegado un correo aun?</span>
+      <div className="flex justify-center items-center">
+        <MailPlus className="size-24 text-blue-500" />
+      </div>
+      <p>
+        Hemos enviado un correo a <b>{meta?.email || "cargando@placeholder.com"}</b>. Revisa tu bandeja de
+        entrada para verificar tu cuenta y luego vuelve a esta pagina
+      </p>
+      <div className="text-center">
+        <span className="text-gray-500 text-sm">No te ha llegado un correo aun? </span>
         <>
           {time == 0 ? (
             <a
               href="#"
+              className="text-gray-500 text-sm underline"
               onClick={() => {
-                if (!timer) sendConfirmationMail();
+                if (!time) sendConfirmationMail();
               }}
             >
               Haz click aqui para reenviar
             </a>
           ) : (
-            <span>Reenvia en {time} segundos</span>
+            <span className="text-gray-500 text-sm">Reenvia en {time} segundos</span>
           )}
         </>
-      </DialogContent>
+      </div>
     </>
   );
 }
