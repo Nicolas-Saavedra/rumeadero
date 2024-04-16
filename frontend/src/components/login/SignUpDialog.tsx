@@ -4,17 +4,75 @@ import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
 import { DialogDescription, DialogHeader, DialogTitle } from "../ui/Dialog";
 import { useDialogSetter } from "@/stores/dialogStore";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { z } from "zod";
+
+const FormSubmit = z
+  .object({
+    username: z.string().min(3, {
+      message: "El nombre de usuario debe tener por lo menos 3 caracteres",
+    }),
+    email: z.string().email({ message: "Correo electronico invalido" }),
+    password: z.string().min(8, {
+      message: "Tu contraseña debe tener por lo menos 8 caracteres",
+    }),
+    passwordConfirm: z.string(),
+  })
+  .superRefine(({ password, passwordConfirm }, ctx) => {
+    if (password !== passwordConfirm) {
+      ctx.addIssue({
+        code: "custom",
+        message: "Las contraseñas deberian ser iguales",
+        path: ["passwordConfirm"],
+      });
+    }
+  });
 
 export function SignUpDialog() {
+  const usernameError = useRef<HTMLSpanElement | null>(null);
+  const emailError = useRef<HTMLSpanElement | null>(null);
+  const passwordError = useRef<HTMLSpanElement | null>(null);
+  const passwordConfirmError = useRef<HTMLSpanElement | null>(null);
+
   const [formData, setFormData] = useState({
     username: "",
     email: "",
     password: "",
     passwordConfirm: "",
   });
+  function verifyValues() {
+    const errorSpans = [
+      usernameError,
+      emailError,
+      passwordError,
+      passwordConfirmError,
+    ];
+    errorSpans.forEach((errorSpan) => (errorSpan.current!.textContent = ""));
+    const result = FormSubmit.safeParse(formData);
+    if (!result.success) {
+      result.error.errors.forEach((error) => {
+        switch (error.path[0]) {
+          case "username":
+            usernameError.current!.textContent = error.message;
+            return;
+          case "email":
+            emailError.current!.textContent = error.message;
+            return;
+          case "password":
+            passwordError.current!.textContent = error.message;
+            return;
+          case "passwordConfirm":
+            passwordConfirmError.current!.textContent = error.message;
+            return;
+        }
+      });
+    }
+    return result.success;
+  }
   function sendSignupRequest() {
-    console.log(formData);
+    if (!verifyValues()) {
+      return;
+    }
   }
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target!;
@@ -36,12 +94,17 @@ export function SignUpDialog() {
         <div className="grid gap-2">
           <Label htmlFor="first-name">Nombre de usuario</Label>
           <Input
-            id="first-name"
+            id="username"
             name="username"
             placeholder="ernest01_p"
             value={formData.username}
             onChange={handleChange}
             required
+          />
+          <span
+            id="usernameError"
+            className="text-red-400 text-sm"
+            ref={usernameError}
           />
         </div>
         <div className="grid gap-2">
@@ -55,6 +118,11 @@ export function SignUpDialog() {
             onChange={handleChange}
             required
           />
+          <span
+            id="emailError"
+            className="text-red-400 text-sm"
+            ref={emailError}
+          />
         </div>
         <div className="grid gap-2">
           <Label htmlFor="password">Contraseña</Label>
@@ -66,6 +134,11 @@ export function SignUpDialog() {
             onChange={handleChange}
             placeholder="**********"
           />
+          <span
+            id="passwordError"
+            className="text-red-400 text-sm"
+            ref={passwordError}
+          />
         </div>
         <div className="grid gap-2">
           <Label htmlFor="password">Confirmar contraseña</Label>
@@ -76,6 +149,11 @@ export function SignUpDialog() {
             value={formData.passwordConfirm}
             onChange={handleChange}
             placeholder="**********"
+          />
+          <span
+            id="passwordConfirmError"
+            className="text-red-400 text-sm"
+            ref={passwordConfirmError}
           />
         </div>
         <Button type="submit" className="w-full" onClick={sendSignupRequest}>
