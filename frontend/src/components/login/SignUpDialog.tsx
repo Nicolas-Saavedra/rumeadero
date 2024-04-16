@@ -4,8 +4,25 @@ import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
 import { DialogDescription, DialogHeader, DialogTitle } from "../ui/Dialog";
 import { useDialogSetter } from "@/stores/dialogStore";
+import { useState } from "react";
 
 export function SignUpDialog() {
+  const [formData, setFormData] = useState({
+    username: "",
+    email: "",
+    password: "",
+    passwordConfirm: "",
+  });
+  function sendSignupRequest() {
+    console.log(formData);
+  }
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const { name, value } = e.target!;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  }
   const setDialog = useDialogSetter();
   return (
     <>
@@ -18,21 +35,50 @@ export function SignUpDialog() {
       <div className="grid gap-4">
         <div className="grid gap-2">
           <Label htmlFor="first-name">Nombre de usuario</Label>
-          <Input id="first-name" placeholder="Ernesto" required />
+          <Input
+            id="first-name"
+            name="username"
+            placeholder="ernest01_p"
+            value={formData.username}
+            onChange={handleChange}
+            required
+          />
         </div>
         <div className="grid gap-2">
           <Label htmlFor="email">Email</Label>
-          <Input id="email" type="email" placeholder="m@example.com" required />
+          <Input
+            id="email"
+            name="email"
+            type="email"
+            placeholder="mail@example.com"
+            value={formData.email}
+            onChange={handleChange}
+            required
+          />
         </div>
         <div className="grid gap-2">
           <Label htmlFor="password">Contraseña</Label>
-          <Input id="password" type="password" placeholder="**********" />
+          <Input
+            id="password"
+            name="password"
+            type="password"
+            value={formData.password}
+            onChange={handleChange}
+            placeholder="**********"
+          />
         </div>
         <div className="grid gap-2">
           <Label htmlFor="password">Confirmar contraseña</Label>
-          <Input id="password" type="password" placeholder="**********" />
+          <Input
+            id="passwordConfirm"
+            name="passwordConfirm"
+            type="password"
+            value={formData.passwordConfirm}
+            onChange={handleChange}
+            placeholder="**********"
+          />
         </div>
-        <Button type="submit" className="w-full">
+        <Button type="submit" className="w-full" onClick={sendSignupRequest}>
           Crea tu cuenta
         </Button>
       </div>
