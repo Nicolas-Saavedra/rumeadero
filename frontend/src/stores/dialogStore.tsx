@@ -53,7 +53,7 @@ export function useDialogSetter() {
 
 export function useDialogSetterWithMeta() {
   const dispatch = useDispatch();
-  return (value: EnabledDialog, meta: Record<string, any>) => {
+  return (value: EnabledDialog, meta: Record<string, any> | null) => {
     dispatch(slice.actions.switchWithMeta({ value, meta }));
   };
 }

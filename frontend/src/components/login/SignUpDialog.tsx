@@ -3,11 +3,14 @@ import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
 import { DialogDescription, DialogHeader, DialogTitle } from "../ui/Dialog";
-import { useDialogSetter } from "@/stores/dialogStore";
+import { useDialogSetter, useDialogSetterWithMeta } from "@/stores/dialogStore";
 import { useRef, useState } from "react";
+import { useMutation } from "react-query";
 import { z } from "zod";
+import { registerUser } from "@/services/userService";
+import { ClientResponseError } from "pocketbase";
 
-const FormSubmit = z
+const SignupFormSubmit = z
   .object({
     username: z.string().min(3, {
       message: "El nombre de usuario debe tener por lo menos 3 caracteres",
@@ -33,6 +36,23 @@ export function SignUpDialog() {
   const emailError = useRef<HTMLSpanElement | null>(null);
   const passwordError = useRef<HTMLSpanElement | null>(null);
   const passwordConfirmError = useRef<HTMLSpanElement | null>(null);
+  const submitError = useRef<HTMLSpanElement | null>(null);
+
+  const setDialogAndMeta = useDialogSetterWithMeta();
+
+  const { mutate } = useMutation(registerUser, {
+    onSuccess: (model) => {
+      setDialogAndMeta("email", {
+        id: model.id,
+        email: formData.email,
+        password: formData.password,
+      });
+    },
+    onError: (error: ClientResponseError) => {
+      console.log(error);
+      submitError.current!.textContent = error.message;
+    },
+  });
 
   const [formData, setFormData] = useState({
     username: "",
@@ -48,7 +68,7 @@ export function SignUpDialog() {
       passwordConfirmError,
     ];
     errorSpans.forEach((errorSpan) => (errorSpan.current!.textContent = ""));
-    const result = FormSubmit.safeParse(formData);
+    const result = SignupFormSubmit.safeParse(formData);
     if (!result.success) {
       result.error.errors.forEach((error) => {
         switch (error.path[0]) {
@@ -73,6 +93,7 @@ export function SignUpDialog() {
     if (!verifyValues()) {
       return;
     }
+    mutate({ ...formData });
   }
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target!;
@@ -156,9 +177,16 @@ export function SignUpDialog() {
             ref={passwordConfirmError}
           />
         </div>
-        <Button type="submit" className="w-full" onClick={sendSignupRequest}>
-          Crea tu cuenta
-        </Button>
+        <div>
+          <Button type="submit" className="w-full" onClick={sendSignupRequest}>
+            Crea tu cuenta
+          </Button>
+          <span
+            id="submitError"
+            className="text-red-400 text-sm"
+            ref={submitError}
+          />
+        </div>
       </div>
       <div className="mt-4 text-center text-sm">
         ¿Ya tienes una cuenta?{" "}

@@ -4,10 +4,80 @@ import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
 import { DialogDescription, DialogHeader, DialogTitle } from "../ui/Dialog";
-import { useDialogSetter } from "@/stores/dialogStore";
+import { useDialogSetter, useDialogSetterWithMeta } from "@/stores/dialogStore";
+import { z } from "zod";
+import { useRef, useState } from "react";
+import { useMutation } from "react-query";
+import { loginWithEmailOrName } from "@/services/userService";
+import { ClientResponseError } from "pocketbase";
+
+const LoginFormSubmit = z.object({
+  email: z.string().email({ message: "El correo puesto no es valido" }),
+  password: z
+    .string()
+    .min(8, { message: "La contraseña que pusiste es demasiado corta" }),
+});
 
 export function LoginDialog() {
-  const setDialog = useDialogSetter();
+  const setDialogWithMeta = useDialogSetterWithMeta();
+  const emailError = useRef<HTMLSpanElement | null>(null);
+  const passwordError = useRef<HTMLSpanElement | null>(null);
+
+  const { mutate } = useMutation(
+    async ({ email, password }: { email: string; password: string }) =>
+      await loginWithEmailOrName(email, password),
+    {
+      onSuccess: () => {
+        setDialogWithMeta("none", null);
+      },
+      onError: (error: ClientResponseError) => {
+        if (error.response.affectedUser) {
+          setDialogWithMeta("email", {
+            id: error.response.affectedUser,
+            email: formData.email,
+            password: formData.password,
+          });
+        }
+      },
+    },
+  );
+
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  function verifyValues() {
+    const errorSpans = [emailError, passwordError];
+    errorSpans.forEach((errorSpan) => (errorSpan.current!.textContent = ""));
+    const result = LoginFormSubmit.safeParse(formData);
+    if (!result.success) {
+      result.error.errors.forEach((error) => {
+        switch (error.path[0]) {
+          case "email":
+            emailError.current!.textContent = error.message;
+            return;
+          case "password":
+            passwordError.current!.textContent = error.message;
+            return;
+        }
+      });
+    }
+    return result.success;
+  }
+  function sendLoginRequest() {
+    if (!verifyValues()) {
+      return;
+    }
+    mutate({ ...formData });
+  }
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const { name, value } = e.target!;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  }
   return (
     <>
       <DialogHeader>
@@ -19,7 +89,19 @@ export function LoginDialog() {
       <div className="grid gap-4">
         <div className="grid gap-2">
           <Label htmlFor="email">Email</Label>
-          <Input id="email" type="email" placeholder="m@example.com" required />
+          <Input
+            id="email"
+            type="email"
+            name="email"
+            placeholder="m@example.com"
+            onChange={handleChange}
+            required
+          />
+          <span
+            id="emailError"
+            className="text-red-400 text-sm"
+            ref={emailError}
+          />
         </div>
         <div className="grid gap-2">
           <div className="flex items-center">
@@ -28,9 +110,20 @@ export function LoginDialog() {
               Olvidaste tu contraseña?
             </Link>
           </div>
-          <Input id="password" type="password" required />
+          <Input
+            id="password"
+            type="password"
+            name="password"
+            onChange={handleChange}
+            required
+          />
+          <span
+            id="passwordError"
+            className="text-red-400 text-sm"
+            ref={passwordError}
+          />
         </div>
-        <Button type="submit" className="w-full">
+        <Button type="submit" className="w-full" onClick={sendLoginRequest}>
           Iniciar Session
         </Button>
         <Button variant="outline" className="w-full">

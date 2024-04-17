@@ -4,13 +4,18 @@ import { BrowserRouter } from "react-router-dom";
 import App from "./App.tsx";
 import "./global.css";
 import { DialogProvider } from "./stores/dialogStore.tsx";
+import { QueryClient, QueryClientProvider } from "react-query";
+
+const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <DialogProvider>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </DialogProvider>
+    <QueryClientProvider client={queryClient}>
+      <DialogProvider>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </DialogProvider>
+    </QueryClientProvider>
   </React.StrictMode>,
 );

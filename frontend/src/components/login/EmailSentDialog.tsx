@@ -2,29 +2,67 @@ import { MailPlus } from "lucide-react";
 import { DialogHeader, DialogTitle } from "../ui/Dialog";
 import { useDialogMeta } from "@/stores/dialogStore";
 import { useEffect, useState } from "react";
+import {
+  loginWithEmailOrName,
+  notifyUserWasVerified,
+  removeVerificationListener,
+  requestVerificationUser,
+} from "@/services/userService";
+import { useDialogSetter } from "@/stores/dialogStore";
+import { ClientResponseError } from "pocketbase";
 
 interface EmailSentMeta {
+  id: string;
   email: string;
+  password: string;
 }
 
 export default function EmailSentDialog() {
   const [time, setTime] = useState<number>(0);
+  const setDialog = useDialogSetter();
   const meta = useDialogMeta<EmailSentMeta>();
 
   function createNewTimer() {
     setTime(15);
+    try {
+      requestVerificationUser(meta!.email);
+    } catch (e) {
+      const err = e as ClientResponseError;
+      if (err.isAbort) {
+        console.warn(
+          "auto cancelled a client request, is this running as dev server?",
+        );
+      }
+    }
+    notifyUserWasVerified(meta!.id, recieveVerificationConfirmation);
     const interval = setInterval(() => {
       setTime((prevTime) => (prevTime > 0 ? prevTime - 1 : prevTime));
     }, 1000);
-    return () => clearInterval(interval);
+    return () => {
+      clearInterval(interval);
+      removeVerificationListener(meta!.id);
+    };
   }
 
   function sendConfirmationMail() {
+    requestVerificationUser(meta!.email);
     setTime(15);
-    // Add code to handle confirmation mail
+  }
+
+  function recieveVerificationConfirmation(verified: boolean) {
+    if (verified) {
+      loginWithEmailOrName(meta!.email, meta!.password);
+      setDialog("none");
+    }
   }
 
   useEffect(() => {
+    if (!meta) {
+      throw new Error(
+        "This dialog was shown without any metadata having been provided. Please make sure to only \
+        render this component with the dialog metadata supplied",
+      );
+    }
     const clearFunc = createNewTimer();
     return clearFunc;
   }, []);
@@ -32,17 +70,22 @@ export default function EmailSentDialog() {
   return (
     <>
       <DialogHeader>
-        <DialogTitle className="text-2xl">Correo de verificacion enviado</DialogTitle>
+        <DialogTitle className="text-2xl">
+          Correo de verificacion enviado
+        </DialogTitle>
       </DialogHeader>
       <div className="flex justify-center items-center">
         <MailPlus className="size-24 text-blue-500" />
       </div>
       <p>
-        Hemos enviado un correo a <b>{meta?.email || "cargando@placeholder.com"}</b>. Revisa tu bandeja de
+        Hemos enviado un correo a{" "}
+        <b>{meta?.email || "cargando@placeholder.com"}</b>. Revisa tu bandeja de
         entrada para verificar tu cuenta y luego vuelve a esta pagina
       </p>
       <div className="text-center">
-        <span className="text-gray-500 text-sm">No te ha llegado un correo aun? </span>
+        <span className="text-gray-500 text-sm">
+          No te ha llegado un correo aun?{" "}
+        </span>
         <>
           {time == 0 ? (
             <a
@@ -55,7 +98,9 @@ export default function EmailSentDialog() {
               Haz click aqui para reenviar
             </a>
           ) : (
-            <span className="text-gray-500 text-sm">Reenvia en {time} segundos</span>
+            <span className="text-gray-500 text-sm">
+              Reenvia en {time} segundos
+            </span>
           )}
         </>
       </div>

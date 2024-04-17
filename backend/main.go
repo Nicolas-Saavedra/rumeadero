@@ -1,8 +1,8 @@
 package main
 
 import (
-	"fmt"
 	"log"
+	"net/http"
 	"os"
 	"strings"
 
@@ -27,7 +27,11 @@ func main() {
 	// disallow access to the app in general if no email verification has passed
 	app.OnRecordAuthRequest("users").Add(func(e *core.RecordAuthEvent) error {
 		if !e.Record.Verified() {
-			return fmt.Errorf("user has not verified their account properly")
+			err := e.HttpContext.JSON(http.StatusUnauthorized, map[string]string{
+				"message":      "user cannot be logged in, as it has not been verified",
+				"affectedUser": e.Record.Id,
+			})
+			return err
 		}
 		return nil
 	})

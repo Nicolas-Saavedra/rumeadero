@@ -11,9 +11,12 @@ import {
   CircleUser,
 } from "lucide-react";
 import { useDialogSetter } from "@/stores/dialogStore";
+import { getCurrentUser } from "@/services/userService";
+import { BACKEND_URL } from "@/lib/utils";
 
 export default function Navbar() {
   const setDialog = useDialogSetter();
+  const user = getCurrentUser();
   return (
     <div className="sticky top-0 w-48 md:w-72 h-screen flex text-stone-800 flex-col justify-between px-2">
       <div className="flex flex-col ml-4 md:ml-0">
@@ -67,8 +70,29 @@ export default function Navbar() {
           onClick={() => setDialog("login")}
           variant={"ghost"}
         >
-          <CircleUser className="mr-3 ml-4" />
-          Iniciar sesion
+          {user ? (
+            <>
+              <img
+                src={
+                  BACKEND_URL +
+                  "/api/files/users/" +
+                  user.id +
+                  "/" +
+                  user.avatar
+                }
+                className="ml-4 size-8"
+                alt=""
+              />
+              <span className="text-lg ml-4">
+                {user.username.substring(0, 10)}
+              </span>
+            </>
+          ) : (
+            <>
+              <CircleUser className="mr-3 ml-4" />
+              <span>Iniciar Sesion</span>
+            </>
+          )}
         </Button>
       </div>
     </div>

@@ -4,11 +4,21 @@ import { toFormData } from "@/lib/utils";
 import { PublicUser } from "@/types";
 import { pb } from "../lib/pocketbase";
 
-export async function registerUser(username: string, email: string, password: string) {
+interface RegisterUserParams {
+  username: string;
+  email: string;
+  password: string;
+}
+
+export async function registerUser({
+  username,
+  email,
+  password,
+}: RegisterUserParams) {
   const recordToAdd = {
     username,
     email,
-    emailVisibility: true,
+    emailVisibility: false,
     password,
     passwordConfirm: password,
   };
@@ -25,23 +35,39 @@ export async function fetchUser(userId: string) {
   return await pb.collection("users").getOne<PublicUser>(userId);
 }
 
+export function getCurrentUser() {
+  if (pb.authStore.isValid) {
+    return pb.authStore.model as PublicUser;
+  }
+  return null;
+}
+
 export async function requestVerificationUser(email: string) {
-  pb.collection("users").requestVerification(email);
+  await pb.collection("users").requestVerification(email);
 }
 
 export async function sendVerificationUser(token: string) {
-  pb.collection("users").confirmVerification(token);
+  await pb.collection("users").confirmVerification(token);
 }
 
 export async function notifyUserWasVerified(
   userId: string,
   setter: (verified: boolean) => void,
 ) {
-  pb.collection("users").subscribe<PublicUser>(userId, (data) => {
+  await pb.collection("users").subscribe<PublicUser>(userId, (data) => {
     setter(data.record.verified);
   });
 }
 
-export async function loginWithEmailOrName(emailOrName: string, password: string) {
-  pb.collection("users").authWithPassword<PublicUser>(emailOrName, password);
+export async function removeVerificationListener(userId: string) {
+  await pb.collection("users").unsubscribe(userId);
+}
+
+export async function loginWithEmailOrName(
+  emailOrName: string,
+  password: string,
+) {
+  await pb
+    .collection("users")
+    .authWithPassword<PublicUser>(emailOrName, password);
 }
