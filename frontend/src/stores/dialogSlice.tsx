@@ -1,5 +1,6 @@
-import { PayloadAction, configureStore, createSlice } from "@reduxjs/toolkit";
-import { Provider, useDispatch, useSelector } from "react-redux";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { useDispatch, useSelector } from "react-redux";
+import { RootType } from "./store";
 
 export type EnabledDialog = "none" | "signup" | "login" | "email";
 
@@ -28,20 +29,14 @@ const slice = createSlice({
   },
 });
 
-const store = configureStore({
-  reducer: slice.reducer,
-});
-
-type DialogProviderProps = {
-  children: JSX.Element;
-};
+export const dialogReducer = slice.reducer;
 
 export function useDialogValue(): EnabledDialog {
-  return useSelector((state: EnabledDialogState) => state.value);
+  return useSelector((state: RootType) => state.dialog.value);
 }
 
 export function useDialogMeta<T = Record<string, any>>(): T | null {
-  return useSelector((state: EnabledDialogState) => state.meta as T);
+  return useSelector((state: RootType) => state.dialog.meta as T);
 }
 
 export function useDialogSetter() {
@@ -56,8 +51,4 @@ export function useDialogSetterWithMeta() {
   return (value: EnabledDialog, meta: Record<string, any> | null) => {
     dispatch(slice.actions.switchWithMeta({ value, meta }));
   };
-}
-
-export function DialogProvider({ children }: DialogProviderProps) {
-  return <Provider store={store}>{children}</Provider>;
 }

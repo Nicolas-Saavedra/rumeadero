@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/Button";
-import { useDialogSetter } from "@/stores/dialogStore";
+import { useDialogSetter } from "@/stores/dialogSlice";
 
 export default function Home() {
   const setDialog = useDialogSetter();

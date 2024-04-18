@@ -1,6 +1,6 @@
 import { MailPlus } from "lucide-react";
 import { DialogHeader, DialogTitle } from "../ui/Dialog";
-import { useDialogMeta } from "@/stores/dialogStore";
+import { useDialogMeta } from "@/stores/dialogSlice";
 import { useEffect, useState } from "react";
 import {
   loginWithEmailOrName,
@@ -8,8 +8,9 @@ import {
   removeVerificationListener,
   requestVerificationUser,
 } from "@/services/userService";
-import { useDialogSetter } from "@/stores/dialogStore";
+import { useDialogSetter } from "@/stores/dialogSlice";
 import { ClientResponseError } from "pocketbase";
+import { useCurrentUserSetter } from "@/stores/userSlice";
 
 interface EmailSentMeta {
   id: string;
@@ -20,6 +21,7 @@ interface EmailSentMeta {
 export default function EmailSentDialog() {
   const [time, setTime] = useState<number>(0);
   const setDialog = useDialogSetter();
+  const setCurrentUser = useCurrentUserSetter();
   const meta = useDialogMeta<EmailSentMeta>();
 
   function createNewTimer() {
@@ -49,9 +51,10 @@ export default function EmailSentDialog() {
     setTime(15);
   }
 
-  function recieveVerificationConfirmation(verified: boolean) {
+  async function recieveVerificationConfirmation(verified: boolean) {
     if (verified) {
-      loginWithEmailOrName(meta!.email, meta!.password);
+      const user = await loginWithEmailOrName(meta!.email, meta!.password);
+      setCurrentUser(user.record);
       setDialog("none");
     }
   }

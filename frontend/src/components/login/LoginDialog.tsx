@@ -4,12 +4,13 @@ import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
 import { DialogDescription, DialogHeader, DialogTitle } from "../ui/Dialog";
-import { useDialogSetterWithMeta } from "@/stores/dialogStore";
+import { useDialogSetterWithMeta } from "@/stores/dialogSlice";
 import { z } from "zod";
 import { useRef, useState } from "react";
 import { useMutation } from "react-query";
 import { loginWithEmailOrName } from "@/services/userService";
 import { ClientResponseError } from "pocketbase";
+import { useCurrentUserSetter } from "@/stores/userSlice";
 
 const LoginFormSubmit = z.object({
   email: z.string().email({ message: "El correo puesto no es valido" }),
@@ -19,6 +20,7 @@ const LoginFormSubmit = z.object({
 });
 
 export function LoginDialog() {
+  const setCurrentUser = useCurrentUserSetter();
   const setDialogWithMeta = useDialogSetterWithMeta();
   const emailError = useRef<HTMLSpanElement | null>(null);
   const passwordError = useRef<HTMLSpanElement | null>(null);
@@ -27,8 +29,9 @@ export function LoginDialog() {
     async ({ email, password }: { email: string; password: string }) =>
       await loginWithEmailOrName(email, password),
     {
-      onSuccess: () => {
+      onSuccess: (response) => {
         setDialogWithMeta("none", null);
+        setCurrentUser(response.record);
       },
       onError: (error: ClientResponseError) => {
         if (error.response.affectedUser) {

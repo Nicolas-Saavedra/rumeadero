@@ -3,12 +3,13 @@ import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
 import { DialogDescription, DialogHeader, DialogTitle } from "../ui/Dialog";
-import { useDialogSetter, useDialogSetterWithMeta } from "@/stores/dialogStore";
+import { useDialogSetter, useDialogSetterWithMeta } from "@/stores/dialogSlice";
 import { useRef, useState } from "react";
 import { useMutation } from "react-query";
 import { z } from "zod";
 import { registerUser } from "@/services/userService";
 import { ClientResponseError } from "pocketbase";
+import { useSignUp } from "@/queries/useSignUp";
 
 const SignupFormSubmit = z
   .object({
@@ -38,28 +39,17 @@ export function SignUpDialog() {
   const passwordConfirmError = useRef<HTMLSpanElement | null>(null);
   const submitError = useRef<HTMLSpanElement | null>(null);
 
-  const setDialogAndMeta = useDialogSetterWithMeta();
-
-  const { mutate } = useMutation(registerUser, {
-    onSuccess: (model) => {
-      setDialogAndMeta("email", {
-        id: model.id,
-        email: formData.email,
-        password: formData.password,
-      });
-    },
-    onError: (error: ClientResponseError) => {
-      console.log(error);
-      submitError.current!.textContent = error.message;
-    },
-  });
-
   const [formData, setFormData] = useState({
     username: "",
     email: "",
     password: "",
     passwordConfirm: "",
   });
+
+  const signUp = useSignUp(formData.email, formData.password, (err) => {
+    submitError.current!.textContent = err.message;
+  });
+
   function verifyValues() {
     const errorSpans = [
       usernameError,

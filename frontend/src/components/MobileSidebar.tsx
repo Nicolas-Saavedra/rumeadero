@@ -10,7 +10,7 @@ import {
   Martini,
   CircleUser,
 } from "lucide-react";
-import { useDialogSetter } from "@/stores/dialogStore";
+import { useDialogSetter } from "@/stores/dialogSlice";
 
 export default function MobileSidebar() {
   const setDialog = useDialogSetter();

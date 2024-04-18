@@ -10,14 +10,14 @@ import {
   Martini,
   CircleUser,
 } from "lucide-react";
-import { useDialogSetter } from "@/stores/dialogStore";
-import { getCurrentUser } from "@/services/userService";
+import { useDialogSetter } from "@/stores/dialogSlice";
 import { toFileURL } from "@/lib/utils";
+import { useCurrentUser } from "@/stores/userSlice";
 
 export default function Navbar() {
   const setDialog = useDialogSetter();
   const navigate = useNavigate();
-  const user = getCurrentUser();
+  const user = useCurrentUser();
 
   function actOnUserLoginClick() {
     if (user) {

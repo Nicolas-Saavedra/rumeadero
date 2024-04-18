@@ -1,7 +1,7 @@
 import { Dialog, DialogContent } from "../ui/Dialog";
 import { SignUpDialog } from "../login/SignUpDialog";
 import { LoginDialog } from "../login/LoginDialog";
-import { useDialogSetter, useDialogValue } from "@/stores/dialogStore";
+import { useDialogSetter, useDialogValue } from "@/stores/dialogSlice";
 import EmailSentDialog from "../login/EmailSentDialog";
 
 export default function DialogManager() {
@@ -14,14 +14,15 @@ export default function DialogManager() {
         open={dialog !== "none"}
         onOpenChange={(open) => !open && setDialog("none")}
       >
-        <DialogContent onInteractOutside={(e) => {
-          if (dialog === "email") {
-            e.preventDefault()
-          }
-        }}
+        <DialogContent
+          onInteractOutside={(e) => {
+            if (dialog === "email") {
+              e.preventDefault();
+            }
+          }}
           onEscapeKeyDown={(e) => {
             if (dialog === "email") {
-              e.preventDefault()
+              e.preventDefault();
             }
           }}
         >

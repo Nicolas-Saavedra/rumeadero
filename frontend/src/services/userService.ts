@@ -35,7 +35,7 @@ export async function fetchUser(userId: string) {
   return await pb.collection("users").getOne<PublicUser>(userId);
 }
 
-export function getCurrentUser() {
+export function getAuthStoreUser() {
   if (pb.authStore.isValid) {
     return pb.authStore.model as PublicUser;
   }
@@ -67,7 +67,11 @@ export async function loginWithEmailOrName(
   emailOrName: string,
   password: string,
 ) {
-  await pb
+  return await pb
     .collection("users")
     .authWithPassword<PublicUser>(emailOrName, password);
+}
+
+export function logOutCurentUser() {
+  pb.authStore.clear();
 }

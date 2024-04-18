@@ -11,7 +11,7 @@ import {
   DropdownMenuTrigger,
 } from "../ui/DropdownMenu";
 import { useState } from "react";
-import { useDialogSetter } from "@/stores/dialogStore";
+import { useDialogSetter } from "@/stores/dialogSlice";
 
 type FilterState = "hot" | "trending" | "new";
 

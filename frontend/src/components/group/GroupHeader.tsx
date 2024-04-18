@@ -1,7 +1,7 @@
 import { Input } from "../ui/Input";
 import { Button } from "../ui/Button";
 import { Info } from "lucide-react";
-import { useDialogSetter } from "@/stores/dialogStore";
+import { useDialogSetter } from "@/stores/dialogSlice";
 
 export default function GroupHeader() {
   const setDialog = useDialogSetter();
