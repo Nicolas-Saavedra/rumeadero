@@ -3,12 +3,9 @@ import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
 import { DialogDescription, DialogHeader, DialogTitle } from "../ui/Dialog";
-import { useDialogSetter, useDialogSetterWithMeta } from "@/stores/dialogSlice";
+import { useDialogSetter } from "@/stores/dialogSlice";
 import { useRef, useState } from "react";
-import { useMutation } from "react-query";
 import { z } from "zod";
-import { registerUser } from "@/services/userService";
-import { ClientResponseError } from "pocketbase";
 import { useSignUp } from "@/queries/useSignUp";
 
 const SignupFormSubmit = z
@@ -46,9 +43,14 @@ export function SignUpDialog() {
     passwordConfirm: "",
   });
 
-  const signUp = useSignUp(formData.email, formData.password, (err) => {
-    submitError.current!.textContent = err.message;
-  });
+  const signUp = useSignUp(
+    formData.username,
+    formData.email,
+    formData.password,
+    (err) => {
+      submitError.current!.textContent = err.message;
+    },
+  );
 
   function verifyValues() {
     const errorSpans = [
@@ -83,7 +85,7 @@ export function SignUpDialog() {
     if (!verifyValues()) {
       return;
     }
-    mutate({ ...formData });
+    signUp();
   }
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target!;

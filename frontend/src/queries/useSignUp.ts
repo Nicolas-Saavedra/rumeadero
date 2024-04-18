@@ -6,6 +6,7 @@ import { useMutation } from "react-query";
 type OnErrorFunction = (error: ClientResponseError) => void;
 
 export function useSignUp(
+  username: string,
   email: string,
   password: string,
   onError: OnErrorFunction,
@@ -22,5 +23,5 @@ export function useSignUp(
     },
     onError: onError,
   });
-  return mutate;
+  return () => mutate({ username, email, password });
 }
