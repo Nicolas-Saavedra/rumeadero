@@ -8,6 +8,7 @@ import { z } from "zod";
 import { useRef, useState } from "react";
 import { useLogin } from "@/queries/useLogin";
 import { useDialogSetter } from "@/stores/dialogSlice";
+import { useEnterPress } from "@/hooks/useEnterPress";
 
 const LoginFormSubmit = z.object({
   email: z.string().email({ message: "El correo puesto no es valido" }),
@@ -30,6 +31,10 @@ export function LoginDialog() {
   const login = useLogin(formData.email, formData.password);
 
   function verifyValues() {
+    return LoginFormSubmit.safeParse(formData).success;
+  }
+
+  function updateErrorMessages() {
     const errorSpans = [emailError, passwordError];
     errorSpans.forEach((errorSpan) => (errorSpan.current!.textContent = ""));
     const result = LoginFormSubmit.safeParse(formData);
@@ -45,14 +50,17 @@ export function LoginDialog() {
         }
       });
     }
-    return result.success;
   }
+
+  // Yes, this parses twice. Unless this is a perf issue, not changing it
   function sendLoginRequest() {
     if (!verifyValues()) {
+      updateErrorMessages();
       return;
     }
     login();
   }
+
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target!;
     setFormData((prev) => ({
@@ -60,6 +68,9 @@ export function LoginDialog() {
       [name]: value,
     }));
   }
+
+  useEnterPress(sendLoginRequest);
+
   return (
     <>
       <DialogHeader>

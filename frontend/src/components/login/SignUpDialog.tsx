@@ -7,6 +7,7 @@ import { useDialogSetter } from "@/stores/dialogSlice";
 import { useRef, useState } from "react";
 import { z } from "zod";
 import { useSignUp } from "@/queries/useSignUp";
+import { useEnterPress } from "@/hooks/useEnterPress";
 
 const SignupFormSubmit = z
   .object({
@@ -52,7 +53,13 @@ export function SignUpDialog() {
     },
   );
 
+  const setDialog = useDialogSetter();
+
   function verifyValues() {
+    return SignupFormSubmit.safeParse(formData).success;
+  }
+
+  function updateErrorMessages() {
     const errorSpans = [
       usernameError,
       emailError,
@@ -63,7 +70,8 @@ export function SignUpDialog() {
     const result = SignupFormSubmit.safeParse(formData);
     if (!result.success) {
       result.error.errors.forEach((error) => {
-        switch (error.path[0]) {
+        const nameKey = error.path[0];
+        switch (nameKey) {
           case "username":
             usernameError.current!.textContent = error.message;
             return;
@@ -79,14 +87,16 @@ export function SignUpDialog() {
         }
       });
     }
-    return result.success;
   }
+
   function sendSignupRequest() {
     if (!verifyValues()) {
+      updateErrorMessages();
       return;
     }
     signUp();
   }
+
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target!;
     setFormData((prev) => ({
@@ -94,7 +104,8 @@ export function SignUpDialog() {
       [name]: value,
     }));
   }
-  const setDialog = useDialogSetter();
+
+  useEnterPress(sendSignupRequest);
   return (
     <>
       <DialogHeader>
