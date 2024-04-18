@@ -14,3 +14,7 @@ export function toFormData(obj: Record<string, any>) {
   }
   return formData;
 }
+
+export function toFileURL(id: string, avatar: string) {
+  return BACKEND_URL + "/api/files/users/" + id + "/" + avatar;
+}

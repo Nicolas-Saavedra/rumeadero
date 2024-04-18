@@ -12,6 +12,7 @@ import useScreenSize from "./hooks/useScreenSize";
 import MobileSidebar from "./components/MobileSidebar";
 import ForoDetail from "./routes/ForoDetail";
 import { useEffect, useRef, useState } from "react";
+import { User } from "./routes/User";
 
 function App() {
   const [sidebarHeight, setSidebarHeight] = useState(0);
@@ -51,6 +52,7 @@ function App() {
             ></Route>
             <Route path="/ventas" element={<Ventas />}></Route>
             <Route path="/tutorias" element={<Tutorias />}></Route>
+            <Route path="/user/:name" element={<User />}></Route>
           </Routes>
         </div>
       </div>

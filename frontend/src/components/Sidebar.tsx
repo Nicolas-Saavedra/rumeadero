@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/Button";
 import {
   Users,
@@ -12,11 +12,21 @@ import {
 } from "lucide-react";
 import { useDialogSetter } from "@/stores/dialogStore";
 import { getCurrentUser } from "@/services/userService";
-import { BACKEND_URL } from "@/lib/utils";
+import { toFileURL } from "@/lib/utils";
 
 export default function Navbar() {
   const setDialog = useDialogSetter();
+  const navigate = useNavigate();
   const user = getCurrentUser();
+
+  function actOnUserLoginClick() {
+    if (user) {
+      navigate(`/user/${encodeURIComponent(user.username)}`); // Encode to avoid invalid username URLs
+    } else {
+      setDialog("login");
+    }
+  }
+
   return (
     <div className="sticky top-0 w-48 md:w-72 h-screen flex text-stone-800 flex-col justify-between px-2">
       <div className="flex flex-col ml-4 md:ml-0">
@@ -67,24 +77,18 @@ export default function Navbar() {
       <div className="flex flex-col">
         <Button
           className="justify-start text-md py-6 my-4"
-          onClick={() => setDialog("login")}
+          onClick={actOnUserLoginClick}
           variant={"ghost"}
         >
           {user ? (
             <>
               <img
-                src={
-                  BACKEND_URL +
-                  "/api/files/users/" +
-                  user.id +
-                  "/" +
-                  user.avatar
-                }
+                src={toFileURL(user.id, user.avatar)}
                 className="ml-4 size-8"
                 alt=""
               />
               <span className="text-lg ml-4">
-                {user.username.substring(0, 10)}
+                @{user.username.substring(0, 10)}
               </span>
             </>
           ) : (
