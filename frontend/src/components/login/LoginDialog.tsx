@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
 import { DialogDescription, DialogHeader, DialogTitle } from "../ui/Dialog";
-import { useDialogSetter, useDialogSetterWithMeta } from "@/stores/dialogStore";
+import { useDialogSetterWithMeta } from "@/stores/dialogStore";
 import { z } from "zod";
 import { useRef, useState } from "react";
 import { useMutation } from "react-query";
