@@ -120,11 +120,11 @@ export function LoginDialog() {
           Iniciar Session
         </Button>
         <Button variant="outline" className="w-full">
-          <img className="mr-2 h-5" src="./google.svg" alt="" />
+          <img className="mr-2 h-5" src="/google.svg" alt="" />
           Iniciar Session con Google
         </Button>
         <Button variant="outline" className="w-full">
-          <img className="mr-2 h-5" src="./microsoft.svg" alt="" />
+          <img className="mr-2 h-5" src="/microsoft.svg" alt="" />
           Iniciar Session con Microsoft
         </Button>
       </div>
