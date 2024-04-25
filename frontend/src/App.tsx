@@ -29,7 +29,7 @@ function App() {
   }, []);
   return (
     <>
-      <div className="flex lg:px-32 xl:px-96 bg-stone-50 h-full">
+      <div className="flex pr-16 lg:px-32 xl:px-96 bg-stone-50 h-full">
         <div
           style={{ height: sidebarHeight }}
           className="min-h-screen h-full flex-grow"
