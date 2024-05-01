@@ -1,22 +1,22 @@
-import { PublicUser } from "@/types";
+import { User } from "@/types";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { useDispatch, useSelector } from "react-redux";
 import { RootType } from "./store";
 import { pb } from "@/lib/pocketbase";
 
 type UserState = {
-  value: PublicUser | null;
+  value: User | null;
 };
 
 const initialState: UserState = {
-  value: pb.authStore.model as PublicUser | null,
+  value: pb.authStore.model as User | null,
 };
 
 const slice = createSlice({
   name: "userSlice",
   initialState,
   reducers: {
-    setCurrentUser: (state, action: PayloadAction<PublicUser | null>) => {
+    setCurrentUser: (state, action: PayloadAction<User | null>) => {
       state.value = action.payload;
     },
   },
@@ -24,13 +24,13 @@ const slice = createSlice({
 
 export const userReducer = slice.reducer;
 
-export function useCurrentUser(): PublicUser | null {
+export function useCurrentUser(): User | null {
   return useSelector((state: RootType) => state.user.value);
 }
 
 export function useCurrentUserSetter() {
   const dispatch = useDispatch();
-  return (user: PublicUser | null) => {
+  return (user: User | null) => {
     dispatch(slice.actions.setCurrentUser(user));
   };
 }

@@ -13,3 +13,8 @@ export type SocialMedia =
   | "telegram"
   | "facebook"
   | "private";
+// Simple GEOLocation
+export type SimpleLocation = {
+  lat: number;
+  long: number;
+};

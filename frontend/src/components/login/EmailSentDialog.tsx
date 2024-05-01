@@ -7,7 +7,7 @@ import {
   notifyUserWasVerified,
   removeVerificationListener,
   requestVerificationUser,
-} from "@/services/userService";
+} from "@/services/publicUserService";
 import { useDialogSetter } from "@/stores/dialogSlice";
 import { ClientResponseError } from "pocketbase";
 import { useCurrentUserSetter } from "@/stores/userSlice";

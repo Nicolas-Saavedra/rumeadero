@@ -8,13 +8,18 @@ import {
 import { Button } from "../ui/Button";
 import { Switch } from "../ui/Switch";
 import { Label } from "../ui/Label";
+import { User } from "@/types";
 
-export function UserSettings() {
+interface UserSettingsProps {
+  user: User;
+}
+
+export function UserSettings({ user }: UserSettingsProps) {
   return (
     <div className="w-1/2">
       <Card>
         <CardHeader>
-          <CardTitle>Tema del sistema</CardTitle>
+          <CardTitle>Preferencia del sistema</CardTitle>
           <CardDescription>Cambiar tema a modo claro/oscuro</CardDescription>
         </CardHeader>
         <CardContent>

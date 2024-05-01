@@ -1,77 +1,27 @@
-import { createAvatar } from "@dicebear/core";
-import { identicon } from "@dicebear/collection";
-import { toFormData } from "@/lib/utils";
-import { PublicUser } from "@/types";
-import { pb } from "../lib/pocketbase";
+import { SimpleLocation, UserSettings } from "@/types";
+import { pb } from "@/lib/pocketbase";
 
-interface RegisterUserParams {
-  username: string;
-  email: string;
-  password: string;
-}
+type PrivateUserDetail = {
+  location?: SimpleLocation;
+  settings: UserSettings;
+};
 
-export async function registerUser({
-  username,
-  email,
-  password,
-}: RegisterUserParams) {
-  const recordToAdd = {
-    username,
-    email,
-    emailVisibility: false,
-    password,
-    passwordConfirm: password,
-  };
-  const avatarSvg = createAvatar(identicon, {
-    seed: username + email,
-  }).toString();
-  const avatarBlob = new Blob([avatarSvg], { type: "image/svg+xml" });
-  const formData = toFormData(recordToAdd);
-  formData.append("avatar", avatarBlob);
-  return await pb.collection("users").create(formData);
-}
+type RawUserStatistics = {
+  groups: number;
+  likes_this_week: number;
+  comments_this_week: number;
+  likes_comparison_result: 1 | 0 | -1;
+  comments_comparison_result: 1 | 0 | -1;
+};
 
-export async function fetchUser(userId: string) {
-  return await pb.collection("users").getOne<PublicUser>(userId);
-}
-
-export function getAuthStoreUser() {
-  if (pb.authStore.isValid) {
-    return pb.authStore.model as PublicUser;
-  }
-  return null;
-}
-
-export async function requestVerificationUser(email: string) {
-  await pb.collection("users").requestVerification(email);
-}
-
-export async function sendVerificationUser(token: string) {
-  await pb.collection("users").confirmVerification(token);
-}
-
-export async function notifyUserWasVerified(
-  userId: string,
-  setter: (verified: boolean) => void,
-) {
-  await pb.collection("users").subscribe<PublicUser>(userId, (data) => {
-    setter(data.record.verified);
-  });
-}
-
-export async function removeVerificationListener(userId: string) {
-  await pb.collection("users").unsubscribe(userId);
-}
-
-export async function loginWithEmailOrName(
-  emailOrName: string,
-  password: string,
-) {
+export async function fetchUserPrivate(userId: string) {
   return await pb
-    .collection("users")
-    .authWithPassword<PublicUser>(emailOrName, password);
+    .collection("users_private")
+    .getFirstListItem<PrivateUserDetail>(`user="${userId}"`);
 }
 
-export function logOutCurentUser() {
-  pb.authStore.clear();
+export async function fetchUserStatistics(userId: string) {
+  return await pb
+    .collection("users_statistics")
+    .getOne<RawUserStatistics>(userId);
 }

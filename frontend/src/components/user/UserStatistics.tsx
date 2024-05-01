@@ -12,8 +12,13 @@ import {
   CircleMinus,
   Users,
 } from "lucide-react";
+import { User } from "@/types";
 
-export function UserStatistics() {
+interface UserStatistics {
+  user: User;
+}
+
+export function UserStatistics({ user }: UserStatistics) {
   const [statistics, setStatistics] = useState({
     likesPerWeek: {
       value: 13,

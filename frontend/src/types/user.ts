@@ -1,4 +1,4 @@
-import { ImageUrl } from "./primitives";
+import { ImageUrl, Integer, SimpleLocation } from "./primitives";
 
 export type PublicUser = {
   id: string;
@@ -10,23 +10,22 @@ export type PublicUser = {
 };
 
 export type User = PublicUser & {
-  settings: {
-    theme: "light" | "dark";
-    providers: Provider[];
-  };
-  direction?: {
-    lat: number;
-    long: number;
-  };
+  settings: UserSettings;
+  direction?: SimpleLocation;
   statistics: {
-    numberOfLikesPastWeek: Statistic;
-    numberOfCommentsPastWeek: Statistic;
-    memberOfGroups: number;
+    numberOfLikesThisWeek: Statistic;
+    numberOfCommentsThisWeek: Statistic;
+    numberOfGroupsPartOf: Integer;
   };
 };
 
+export type UserSettings = {
+  theme: "light" | "dark";
+  providers: Provider[];
+};
+
 export type Statistic = {
-  value: number;
+  value: Integer;
   increase: 1 | 0 | -1; // increase, equal or decrease
 };
 

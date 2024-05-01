@@ -28,7 +28,7 @@ export function LoginDialog() {
     password: "",
   });
 
-  const login = useLogin(formData.email, formData.password);
+  const { login } = useLogin(formData.email, formData.password);
 
   function verifyValues() {
     return LoginFormSubmit.safeParse(formData).success;
