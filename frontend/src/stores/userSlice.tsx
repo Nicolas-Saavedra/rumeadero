@@ -2,14 +2,13 @@ import { User } from "@/types";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { useDispatch, useSelector } from "react-redux";
 import { RootType } from "./store";
-import { pb } from "@/lib/pocketbase";
 
 type UserState = {
   value: User | null;
 };
 
 const initialState: UserState = {
-  value: pb.authStore.model as User | null,
+  value: JSON.parse(localStorage.getItem("authUser") || "null") as User | null,
 };
 
 const slice = createSlice({
@@ -18,6 +17,11 @@ const slice = createSlice({
   reducers: {
     setCurrentUser: (state, action: PayloadAction<User | null>) => {
       state.value = action.payload;
+      if (action.payload) {
+        localStorage.setItem("authUser", JSON.stringify(action.payload));
+      } else {
+        localStorage.removeItem("authUser");
+      }
     },
   },
 });

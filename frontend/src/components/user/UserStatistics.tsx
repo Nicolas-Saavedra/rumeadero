@@ -19,17 +19,7 @@ interface UserStatistics {
 }
 
 export function UserStatistics({ user }: UserStatistics) {
-  const [statistics, setStatistics] = useState({
-    likesPerWeek: {
-      value: 13,
-      increased: -1,
-    },
-    commentsWrittenPerWeek: {
-      value: 4,
-      increased: 1,
-    },
-    groupsJoined: 2,
-  });
+  const [localStatistics, setLocalStatistics] = useState(user.statistics);
 
   function ChevronIcon({ increased }: { increased: number }) {
     switch (increased) {
@@ -60,9 +50,11 @@ export function UserStatistics({ user }: UserStatistics) {
             <CardContent>
               <div className="flex flex-row items-center gap-3">
                 <h2 className="text-4xl bold">
-                  {statistics.likesPerWeek.value}
+                  {localStatistics.numberOfLikesThisWeek.value}
                 </h2>
-                <ChevronIcon increased={statistics.likesPerWeek.increased} />
+                <ChevronIcon
+                  increased={localStatistics.numberOfLikesThisWeek.increase}
+                />
               </div>
             </CardContent>
           </Card>
@@ -74,10 +66,10 @@ export function UserStatistics({ user }: UserStatistics) {
             <CardContent>
               <div className="flex flex-row items-center gap-3">
                 <h2 className="text-4xl bold">
-                  {statistics.commentsWrittenPerWeek.value}
+                  {localStatistics.numberOfCommentsThisWeek.value}
                 </h2>
                 <ChevronIcon
-                  increased={statistics.commentsWrittenPerWeek.increased}
+                  increased={localStatistics.numberOfCommentsThisWeek.increase}
                 />
               </div>
             </CardContent>
@@ -89,7 +81,9 @@ export function UserStatistics({ user }: UserStatistics) {
             </CardHeader>
             <CardContent>
               <div className="flex flex-row items-center gap-3">
-                <h2 className="text-4xl bold">{statistics.groupsJoined}</h2>
+                <h2 className="text-4xl bold">
+                  {localStatistics.numberOfGroupsPartOf}
+                </h2>
                 <Users />
               </div>
             </CardContent>
