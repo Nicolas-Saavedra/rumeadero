@@ -21,17 +21,13 @@ export default function ForumHeader() {
 
   let triggerDisplayTag;
 
-  switch (filterState) {
-    case "hot":
-      triggerDisplayTag = hotDisplayTag;
-      break;
-    case "trending":
-      triggerDisplayTag = trendingDisplayTag;
-      break;
-    case "new":
-      triggerDisplayTag = newDisplayTag;
-      break;
-  }
+  const displayTags = {
+    hot: hotDisplayTag,
+    trending: trendingDisplayTag,
+    new: newDisplayTag,
+  };
+
+  triggerDisplayTag = displayTags[filterState];
 
   return (
     <div className="flex flex-row sticky top-0">
