@@ -62,5 +62,7 @@ export function useLogin(email: string, password: string) {
 
   const login = () => refetch();
 
-  return { isLoading, error, data, login };
+  const castedError = error as ClientResponseError;
+
+  return { isLoading, error: castedError, data, login };
 }

@@ -28,7 +28,7 @@ export function LoginDialog() {
     password: "",
   });
 
-  const { login } = useLogin(formData.email, formData.password);
+  const { login, error } = useLogin(formData.email, formData.password);
 
   function verifyValues() {
     return LoginFormSubmit.safeParse(formData).success;
@@ -71,6 +71,7 @@ export function LoginDialog() {
 
   useEnterPress(sendLoginRequest);
 
+  // TODO: Login submit error message might not be pretty, clean up
   return (
     <>
       <DialogHeader>
@@ -127,6 +128,9 @@ export function LoginDialog() {
           <img className="mr-2 h-5" src="/microsoft.svg" alt="" />
           Iniciar Session con Microsoft
         </Button>
+        <span id="submitError" className="text-red-400 text-sm">
+          {error.message}
+        </span>
       </div>
       <div className="mt-4 text-center text-sm">
         ¿No tienes una cuenta?{" "}
