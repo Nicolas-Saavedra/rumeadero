@@ -1,5 +1,8 @@
-import { loginWithEmailOrName } from "@/services/publicUserService";
-import { fetchUserPrivate, fetchUserStatistics } from "@/services/userService";
+import { loginWithEmailOrName } from "@/services/localUserService";
+import {
+  fetchUserPrivate,
+  fetchUserStatistics,
+} from "@/services/localUserService";
 import { useDialogSetterWithMeta } from "@/stores/dialogSlice";
 import { useCurrentUserSetter } from "@/stores/userSlice";
 import { User } from "@/types";

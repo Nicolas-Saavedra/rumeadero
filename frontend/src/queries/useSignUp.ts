@@ -1,4 +1,4 @@
-import { registerUser } from "@/services/publicUserService";
+import { registerUser } from "@/services/localUserService";
 import { useDialogSetterWithMeta } from "@/stores/dialogSlice";
 import { ClientResponseError } from "pocketbase";
 import { useMutation } from "react-query";

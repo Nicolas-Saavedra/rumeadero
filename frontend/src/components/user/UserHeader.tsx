@@ -6,9 +6,8 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import "dayjs/locale/es";
 import { PublicUser } from "@/types";
 import { LogOut } from "lucide-react";
-import { logOutCurentUser } from "@/services/publicUserService";
 import { useNavigate } from "react-router-dom";
-import { useCurrentUserSetter } from "@/stores/userSlice";
+import { useLogout } from "@/queries/useLogout";
 
 dayjs.extend(duration);
 dayjs.extend(relativeTime);
@@ -19,11 +18,10 @@ interface UserHeaderProps {
 
 export function UserHeader({ user }: UserHeaderProps) {
   const navigate = useNavigate();
-  const setCurrentUser = useCurrentUserSetter();
+  const { logout } = useLogout();
   function logOut() {
     navigate("/");
-    logOutCurentUser();
-    setCurrentUser(null);
+    logout();
   }
   return (
     user && (

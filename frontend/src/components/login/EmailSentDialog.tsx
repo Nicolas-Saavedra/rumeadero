@@ -3,11 +3,11 @@ import { DialogHeader, DialogTitle } from "../ui/Dialog";
 import { useDialogMeta } from "@/stores/dialogSlice";
 import { useEffect, useState } from "react";
 import {
-  loginWithEmailOrName,
   notifyUserWasVerified,
   removeVerificationListener,
   requestVerificationUser,
 } from "@/services/publicUserService";
+import { loginWithEmailOrName } from "@/services/localUserService";
 import { useDialogSetter } from "@/stores/dialogSlice";
 import { ClientResponseError } from "pocketbase";
 import { useCurrentUserSetter } from "@/stores/userSlice";
