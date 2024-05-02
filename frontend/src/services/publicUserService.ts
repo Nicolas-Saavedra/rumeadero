@@ -1,37 +1,7 @@
-import { createAvatar } from "@dicebear/core";
-import { identicon } from "@dicebear/collection";
-import { toFormData } from "@/lib/utils";
 import { PublicUser } from "@/types";
 import { pb } from "../lib/pocketbase";
 
-interface RegisterUserParams {
-  username: string;
-  email: string;
-  password: string;
-}
-
-export async function registerUser({
-  username,
-  email,
-  password,
-}: RegisterUserParams) {
-  const recordToAdd = {
-    username,
-    email,
-    emailVisibility: false,
-    password,
-    passwordConfirm: password,
-  };
-  const avatarSvg = createAvatar(identicon, {
-    seed: username + email,
-  }).toString();
-  const avatarBlob = new Blob([avatarSvg], { type: "image/svg+xml" });
-  const formData = toFormData(recordToAdd);
-  formData.append("avatar", avatarBlob);
-  return await pb.collection("users").create(formData);
-}
-
-export async function fetchUser(userId: string) {
+export async function retrievePublicUser(userId: string) {
   return await pb.collection("users").getOne<PublicUser>(userId);
 }
 
@@ -61,17 +31,4 @@ export async function notifyUserWasVerified(
 
 export async function removeVerificationListener(userId: string) {
   await pb.collection("users").unsubscribe(userId);
-}
-
-export async function loginWithEmailOrName(
-  emailOrName: string,
-  password: string,
-) {
-  return await pb
-    .collection("users")
-    .authWithPassword<PublicUser>(emailOrName, password);
-}
-
-export function logOutCurentUser() {
-  pb.authStore.clear();
 }

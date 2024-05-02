@@ -1,4 +1,4 @@
-import { SimpleLocation, UserSettings } from "@/types";
+import { PublicUser, SimpleLocation, UserSettings } from "@/types";
 import { pb } from "@/lib/pocketbase";
 import { createAvatar } from "@dicebear/core";
 import { identicon } from "@dicebear/collection";
@@ -44,14 +44,27 @@ export async function registerUser({
   return await pb.collection("users").create(formData);
 }
 
-export async function fetchUserPrivate(userId: string) {
+export async function retrieveUserPrivate(userId: string) {
   return await pb
     .collection("users_private")
     .getFirstListItem<PrivateUserDetail>(`user="${userId}"`);
 }
 
-export async function fetchUserStatistics(userId: string) {
+export async function retrieveUserStatistics(userId: string) {
   return await pb
     .collection("users_statistics")
     .getOne<RawUserStatistics>(userId);
+}
+
+export async function loginWithEmailOrName(
+  emailOrName: string,
+  password: string,
+) {
+  return await pb
+    .collection("users")
+    .authWithPassword<PublicUser>(emailOrName, password);
+}
+
+export function logOutCurentUser() {
+  pb.authStore.clear();
 }

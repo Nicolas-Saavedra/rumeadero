@@ -1,7 +1,7 @@
 import { loginWithEmailOrName } from "@/services/localUserService";
 import {
-  fetchUserPrivate,
-  fetchUserStatistics,
+  retrieveUserPrivate,
+  retrieveUserStatistics,
 } from "@/services/localUserService";
 import { useDialogSetterWithMeta } from "@/stores/dialogSlice";
 import { useCurrentUserSetter } from "@/stores/userSlice";
@@ -20,8 +20,8 @@ export function useLogin(email: string, password: string) {
         const publicUserResponse = await loginWithEmailOrName(email, password);
         const [privateUserResponse, statisticsUserResponse] = await Promise.all(
           [
-            await fetchUserPrivate(publicUserResponse.record.id),
-            await fetchUserStatistics(publicUserResponse.record.id),
+            await retrieveUserPrivate(publicUserResponse.record.id),
+            await retrieveUserStatistics(publicUserResponse.record.id),
           ],
         );
 
