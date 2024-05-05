@@ -8,9 +8,9 @@ import {
   CardTitle,
 } from "../ui/Card";
 
-import dateFormatter from "dayjs";
 import { useState } from "react";
 import { PublicUser } from "@/types";
+import { formatDateShortened } from "@/lib/utils";
 
 const WORD_COUNT_PREVIEW_LIMIT = 40;
 
@@ -54,7 +54,7 @@ export default function ForumPreviewCard({
         <CardTitle className="text-2xl">{title}</CardTitle>
         <CardDescription>
           {author ? `Creado por ${author.username}` : "Creado anonimamente"},{" "}
-          {formatDateProperly(timestamp)}
+          {formatDateShortened(timestamp)}
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -98,18 +98,6 @@ export default function ForumPreviewCard({
       </CardFooter>
     </Card>
   );
-}
-
-function formatDateProperly(dateToFormat: Date) {
-  const currentDate = new Date();
-  if (
-    dateToFormat.getDate() != currentDate.getDate() ||
-    dateToFormat.getMonth() != currentDate.getFullYear() ||
-    dateToFormat.getFullYear() != currentDate.getFullYear()
-  ) {
-    return dateFormatter(dateToFormat).format("MMM DD");
-  }
-  return `Today, ${dateFormatter(dateToFormat).format("HH:mm")}`;
 }
 
 function formatContentPreview(content: string) {
