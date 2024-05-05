@@ -11,10 +11,12 @@ import {
 import { useState } from "react";
 import { PublicUser } from "@/types";
 import { formatDateShortened } from "@/lib/utils";
+import { useNavigate } from "react-router-dom";
 
 const WORD_COUNT_PREVIEW_LIMIT = 40;
 
 interface ForumPreviewCardProps {
+  id: string;
   author?: PublicUser;
   title: string;
   content: string;
@@ -25,6 +27,7 @@ interface ForumPreviewCardProps {
 }
 
 export default function ForumPreviewCard({
+  id,
   author,
   title,
   content,
@@ -35,6 +38,7 @@ export default function ForumPreviewCard({
   const [like, setLike] = useState(liked);
   const [bookmark, setBookmark] = useState(false);
   const [report, setReport] = useState(false);
+  const navigate = useNavigate();
 
   function sendLike() {
     setLike(!like);
@@ -49,7 +53,10 @@ export default function ForumPreviewCard({
   }
 
   return (
-    <Card className="min-h-64 relative hover:bg-slate-100 hover:cursor-pointer">
+    <Card
+      className="min-h-64 relative hover:bg-slate-100 hover:cursor-pointer"
+      onClick={() => navigate(`/foro/${id}`)}
+    >
       <CardHeader>
         <CardTitle className="text-2xl">{title}</CardTitle>
         <CardDescription>

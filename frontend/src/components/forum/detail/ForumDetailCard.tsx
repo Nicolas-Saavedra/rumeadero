@@ -18,7 +18,7 @@ interface ForumPreviewCardProps {
   author?: PublicUser;
   title: string;
   content: string;
-  likes: number;
+  numberOfLikes: number;
   timestamp: Date;
   image?: string;
 }
@@ -27,7 +27,7 @@ export default function ForumDetailCard({
   author,
   title,
   content,
-  likes,
+  numberOfLikes,
   timestamp,
 }: ForumPreviewCardProps) {
   const [like, setLike] = useState(false);
@@ -47,21 +47,25 @@ export default function ForumDetailCard({
   }
 
   return (
-    <Card className="min-h-64 relative hover:bg-slate-100 hover:cursor-pointer">
-      <CardHeader>
-        <CardTitle className="text-2xl">{title}</CardTitle>
-        <CardDescription>
+    <div className="min-h-64 relative border-none">
+      <div className="mb-8">
+        <CardTitle className="text-3xl mb-1">{title}</CardTitle>
+        <CardDescription className="text-lg">
           {author ? `Creado por ${author.username}` : "Creado anonimamente"},{" "}
           {formatDateProperly(timestamp)}
         </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <span className="text-xl">{formatContentPreview(content)}</span>
-      </CardContent>
-      <CardFooter>
-        <div className="flex flex-row w-full items-center justify-between">
+      </div>
+      <div className="mb-8">
+        <span className="text-2xl">{content}</span>
+      </div>
+      <div>
+        <hr className="my-3 h-[1px] bg-stone-200 border-none" />
+        <div className="flex flex-row w-full items-center justify-between px-6">
           <div className="flex flex-row">
-            <div className="flex flex-row group" onClick={sendLike}>
+            <div
+              className="flex flex-row group items-center"
+              onClick={sendLike}
+            >
               <Heart
                 className={
                   "text-gray-500 group-hover:scale-90 duration-300 size-7 " +
@@ -70,16 +74,16 @@ export default function ForumDetailCard({
               />
               <span
                 className={
-                  "text-gray-500 ml-2 duration-300 text-lg " +
+                  "text-gray-500 ml-2 duration-300 text-xl " +
                   (like && "text-pink-400")
                 }
               >
-                {like ? likes + 1 : likes || 0}
+                {like ? numberOfLikes + 1 : numberOfLikes || 0}
               </span>
             </div>
             <Bookmark
               className={
-                "text-gray-500 ml-3 hover:scale-90 duration-300 size-7 " +
+                "text-gray-500 ml-6 hover:scale-90 duration-300 size-7 " +
                 (bookmark && "text-yellow-500")
               }
               onClick={sendBookmark}
@@ -93,8 +97,9 @@ export default function ForumDetailCard({
             onClick={sendReport}
           />
         </div>
-      </CardFooter>
-    </Card>
+        <hr className="my-3 h-[1px] bg-stone-200 border-none" />
+      </div>
+    </div>
   );
 }
 
