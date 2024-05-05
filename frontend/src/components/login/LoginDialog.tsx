@@ -129,7 +129,7 @@ export function LoginDialog() {
           Iniciar Session con Microsoft
         </Button>
         <span id="submitError" className="text-red-400 text-sm">
-          {error.message}
+          {error?.message}
         </span>
       </div>
       <div className="mt-4 text-center text-sm">

@@ -57,12 +57,13 @@ export function useLogin(email: string, password: string) {
     },
     {
       enabled: false, // Disable initial fetch
+      retry: false,
     },
   );
 
   const login = () => refetch();
 
-  const castedError = error as ClientResponseError;
+  const castedError = error as ClientResponseError | null;
 
   return { isLoading, error: castedError, data, login };
 }
