@@ -38,7 +38,7 @@ export default function ForoDetail() {
     <div className="py-8 px-4 md:px-8">
       <ForumDetailHeader />
       <ForumDetailCard {...currentPost} />
-      <ForumDetailComments />
+      <ForumDetailComments comments={currentPost.comments} />
     </div>
   );
 }

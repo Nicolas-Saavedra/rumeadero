@@ -47,20 +47,20 @@ export default function ForumDetailCard({
   }
 
   return (
-    <div className="min-h-64 relative border-none">
-      <div className="mb-8">
+    <Card className="min-h-64 relative">
+      <CardHeader className="mb-8">
         <CardTitle className="text-3xl mb-1">{title}</CardTitle>
         <CardDescription className="text-lg">
           {author ? `Creado por ${author.username}` : "Creado anonimamente"},{" "}
           {formatDateProperly(timestamp)}
         </CardDescription>
-      </div>
-      <div className="mb-8">
+      </CardHeader>
+      <CardContent className="mb-8">
         <span className="text-2xl">{content}</span>
-      </div>
+      </CardContent>
       <div>
         <hr className="my-3 h-[1px] bg-stone-200 border-none" />
-        <div className="flex flex-row w-full items-center justify-between px-6">
+        <div className="flex flex-row w-full items-center justify-between px-6 mb-4">
           <div className="flex flex-row">
             <div
               className="flex flex-row group items-center"
@@ -97,9 +97,8 @@ export default function ForumDetailCard({
             onClick={sendReport}
           />
         </div>
-        <hr className="my-3 h-[1px] bg-stone-200 border-none" />
       </div>
-    </div>
+    </Card>
   );
 }
 
@@ -113,16 +112,4 @@ function formatDateProperly(dateToFormat: Date) {
     return dateFormatter(dateToFormat).format("MMM DD");
   }
   return `Today, ${dateFormatter(dateToFormat).format("HH:mm")}`;
-}
-
-function formatContentPreview(content: string) {
-  const words = content.split(" ");
-  if (words.length > WORD_COUNT_PREVIEW_LIMIT) {
-    return (
-      words
-        .slice(0, WORD_COUNT_PREVIEW_LIMIT)
-        .reduce((word, acc) => acc + " " + word) + "..."
-    );
-  }
-  return content;
 }
