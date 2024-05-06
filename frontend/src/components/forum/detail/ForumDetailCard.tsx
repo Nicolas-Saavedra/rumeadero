@@ -47,15 +47,15 @@ export default function ForumDetailCard({
 
   return (
     <Card className="min-h-64 relative">
-      <CardHeader className="mb-8">
-        <CardTitle className="text-3xl mb-1">{title}</CardTitle>
+      <CardHeader>
+        <CardTitle className="text-3xl">{title}</CardTitle>
         <CardDescription className="text-lg">
           {author ? `Creado por ${author.username}` : "Creado anonimamente"},{" "}
           {formatDateProperly(timestamp)}
         </CardDescription>
       </CardHeader>
-      <CardContent className="mb-8">
-        <span className="text-2xl">{content}</span>
+      <CardContent className="mb-3">
+        <span className="text-xl">{content}</span>
       </CardContent>
       <div>
         <hr className="my-3 h-[1px] bg-stone-200 border-none" />
