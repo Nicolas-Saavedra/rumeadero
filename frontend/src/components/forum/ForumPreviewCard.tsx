@@ -42,7 +42,7 @@ export default function ForumPreviewCard({
   const navigate = useNavigate();
 
   function sendLike() {
-    setLocalNumberOfLikes((state) => state + 1 + +like * -2);
+    setLocalNumberOfLikes((state) => state + 1 + +like * -2); // Do not be afraid, for I am scared as well
     setLike(!like);
   }
 
@@ -64,7 +64,7 @@ export default function ForumPreviewCard({
         </CardDescription>
       </CardHeader>
       <CardContent onClick={() => navigate(`/foro/${id}`)}>
-        <span className="text-xl">{formatContentPreview(content)}</span>
+        <span className="text-lg">{formatContentPreview(content)}</span>
       </CardContent>
       <CardFooter>
         <div className="flex flex-row w-full items-center justify-between">
