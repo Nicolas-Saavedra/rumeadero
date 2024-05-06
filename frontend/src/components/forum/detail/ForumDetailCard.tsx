@@ -3,7 +3,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "../../ui/Card";
@@ -11,8 +10,6 @@ import {
 import dateFormatter from "dayjs";
 import { useState } from "react";
 import { PublicUser } from "@/types";
-
-const WORD_COUNT_PREVIEW_LIMIT = 40;
 
 interface ForumPreviewCardProps {
   author?: PublicUser;
@@ -31,10 +28,12 @@ export default function ForumDetailCard({
   timestamp,
 }: ForumPreviewCardProps) {
   const [like, setLike] = useState(false);
+  const [localNumberOfLikes, setLocalNumebrOfLikes] = useState(numberOfLikes);
   const [bookmark, setBookmark] = useState(false);
   const [report, setReport] = useState(false);
 
   function sendLike() {
+    setLocalNumebrOfLikes((state) => state + 1 + +like * -2);
     setLike(!like);
   }
 
@@ -78,7 +77,7 @@ export default function ForumDetailCard({
                   (like && "text-pink-400")
                 }
               >
-                {like ? numberOfLikes + 1 : numberOfLikes || 0}
+                {localNumberOfLikes}
               </span>
             </div>
             <Bookmark

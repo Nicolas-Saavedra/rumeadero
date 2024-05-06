@@ -77,5 +77,5 @@ module.exports = {
     },
   },
   plugins: [require("tailwindcss-animate")],
-  safelist: ["text-lg"],
+  safelist: ["text-lg", "text-red-400"],
 };

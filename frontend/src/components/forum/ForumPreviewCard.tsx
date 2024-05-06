@@ -36,11 +36,13 @@ export default function ForumPreviewCard({
   timestamp,
 }: ForumPreviewCardProps) {
   const [like, setLike] = useState(liked);
+  const [localNumberOfLikes, setLocalNumberOfLikes] = useState(numberOfLikes);
   const [bookmark, setBookmark] = useState(false);
   const [report, setReport] = useState(false);
   const navigate = useNavigate();
 
   function sendLike() {
+    setLocalNumberOfLikes((state) => state + 1 + +like * -2);
     setLike(!like);
   }
 
@@ -53,18 +55,15 @@ export default function ForumPreviewCard({
   }
 
   return (
-    <Card
-      className="min-h-64 relative hover:bg-slate-100 hover:cursor-pointer"
-      onClick={() => navigate(`/foro/${id}`)}
-    >
-      <CardHeader>
+    <Card className="min-h-64 relative hover:bg-slate-100 hover:cursor-pointer">
+      <CardHeader onClick={() => navigate(`/foro/${id}`)}>
         <CardTitle className="text-2xl">{title}</CardTitle>
         <CardDescription>
           {author ? `Creado por ${author.username}` : "Creado anonimamente"},{" "}
           {formatDateShortened(timestamp)}
         </CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent onClick={() => navigate(`/foro/${id}`)}>
         <span className="text-xl">{formatContentPreview(content)}</span>
       </CardContent>
       <CardFooter>
@@ -83,7 +82,7 @@ export default function ForumPreviewCard({
                   (like && "text-pink-400")
                 }
               >
-                {like ? numberOfLikes + 1 : numberOfLikes || 0}
+                {localNumberOfLikes}
               </span>
             </div>
             <Bookmark
